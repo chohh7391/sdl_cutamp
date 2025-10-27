@@ -1,0 +1,5 @@
+# Request
+string entity
+---
+# Response
+bool success
