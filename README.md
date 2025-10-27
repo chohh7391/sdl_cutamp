@@ -42,14 +42,7 @@ sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 200
 
     ```
     cd ~/
-    mkdir -p sdl_ws/src
-    cd sdl_Ws/src
-    ```
-
-    ```
-    git clone ~~~
-    cd ..
-    colcon build --symlink-install
+    git clone git@github.com:chohh7391/sdl_cutamp_ws.git
     ```
 
     - create cutamp conda env
@@ -60,7 +53,7 @@ sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 200
     ```
 
     ```
-    cd ~/sdl_ws/src/cuTAMP
+    cd ~/sdl_cutamp_ws/src/cuTAMP
     pip install -e .
     ```
 
@@ -82,6 +75,12 @@ sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 200
     pip install pytest
     python -m pytest .
     cd ..
+    ```
+
+    ```
+    conda deactivate
+    cd ~/sdl_cutamp_ws
+    colcon build --symlink-install
     ```
 
 
