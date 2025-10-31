@@ -80,7 +80,7 @@ sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 200
     ```
     conda deactivate
     cd ~/sdl_cutamp_ws
-    colcon build --symlink-install
+    colcon build
     ```
 
 
@@ -90,21 +90,20 @@ sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 200
 
 ```
 source /opt/ros/humble/setup.bash
-source ~/sdl_ws/install/local_setup.bash
+source ~/sdl_cutamp_ws/install/local_setup.bash
 ```
 
 ```
 ros2 launch isaacsim run_isaacsim.launch.py \
-standalone:=/home/home/sdl_ws/scripts/standalone/simulation.py \
-install_path:=/home/home/IsaacSim/_build/linux-x86_64/release \
-exclude_install_path:=home/home/sdl_ws/install
+standalone:=$HOME/sdl_cutamp_ws/src/isaacsim/scripts/standalone/simulation_fr5.py \
+install_path:=$HOME/IsaacSim/_build/linux-x86_64/release exclude_install_path:=home/home/sdl_cutamp_ws/install
 ```
 
 ## TAMP
 
 ```
 source /opt/ros/humble/setup.bash
-source ~/sdl_ws/install/local_setup.bash
+source ~/sdl_cutamp_ws/install/local_setup.bash
 conda activate cutamp
 ```
 
@@ -116,7 +115,7 @@ conda activate cutamp
 
     - run server
     ```
-    LD_PRELOAD="${SYSTEM_LIBSTDCXX_PATH}" ros2 run sdl tamp_server.py
+    LD_PRELOAD="${SYSTEM_LIBSTDCXX_PATH}" ros2 run tamp tamp_server.py
     ```
 
 - Run TAMP Client
@@ -124,7 +123,7 @@ conda activate cutamp
     - run client
 
     ```
-    ros2 run sdl tamp_client.py
+    ros2 run tamp tamp_client.py
     ```
 
     - plan

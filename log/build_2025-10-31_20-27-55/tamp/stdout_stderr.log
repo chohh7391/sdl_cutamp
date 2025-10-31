@@ -1,0 +1,33 @@
+-- Found ament_cmake: 1.3.12 (/opt/ros/humble/share/ament_cmake/cmake)
+-- Found rclpy: 3.3.17 (/opt/ros/humble/share/rclpy/cmake)
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/home/sdl_cutamp_ws/build/tamp
+-- Install configuration: ""
+-- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/scripts
+-- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/scripts/client
+-- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/scripts/client/tamp_client.py
+-- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/scripts/server
+-- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/scripts/server/tamp_server.py
+-- Installing: /home/home/sdl_cutamp_ws/install/tamp/lib/tamp/src
+-- Installing: /home/home/sdl_cutamp_ws/install/tamp/lib/tamp/src/envs
+-- Installing: /home/home/sdl_cutamp_ws/install/tamp/lib/tamp/src/envs/pouring.py
+-- Installing: /home/home/sdl_cutamp_ws/install/tamp/lib/tamp/src/envs/utils.py
+-- Installing: /home/home/sdl_cutamp_ws/install/tamp/lib/tamp/src/envs/stirring.py
+-- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/lib/tamp/tamp_server.py
+-- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/lib/tamp/tamp_client.py
+-- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/ament_index/resource_index/package_run_dependencies/tamp
+-- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/ament_index/resource_index/parent_prefix_path/tamp
+-- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/environment/ament_prefix_path.sh
+-- Installing: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/environment/ament_prefix_path.dsv
+-- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/environment/path.sh
+-- Installing: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/environment/path.dsv
+-- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/local_setup.bash
+-- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/local_setup.sh
+-- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/local_setup.zsh
+-- Installing: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/local_setup.dsv
+-- Installing: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/package.dsv
+-- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/ament_index/resource_index/packages/tamp
+-- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/cmake/tampConfig.cmake
+-- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/cmake/tampConfig-version.cmake
+-- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/package.xml

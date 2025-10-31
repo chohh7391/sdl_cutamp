@@ -1,0 +1,32 @@
+[0.006s] Invoking command in '/home/home/sdl_cutamp_ws/build/tamp': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/home/sdl_cutamp_ws/build/tamp -- -j16 -l16
+[0.024s] Invoked command in '/home/home/sdl_cutamp_ws/build/tamp' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/home/sdl_cutamp_ws/build/tamp -- -j16 -l16
+[0.027s] Invoking command in '/home/home/sdl_cutamp_ws/build/tamp': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/home/sdl_cutamp_ws/build/tamp
+[0.030s] -- Install configuration: ""
+[0.030s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/scripts
+[0.030s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/scripts/client
+[0.030s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/scripts/client/tamp_client.py
+[0.030s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/scripts/server
+[0.030s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/scripts/server/tamp_server.py
+[0.030s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/src
+[0.030s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/src/envs
+[0.030s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/src/envs/pouring.py
+[0.030s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/src/envs/utils.py
+[0.030s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/src/envs/stirring.py
+[0.030s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/lib/tamp/tamp_server.py
+[0.030s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/lib/tamp/tamp_client.py
+[0.030s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/ament_index/resource_index/package_run_dependencies/tamp
+[0.030s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/ament_index/resource_index/parent_prefix_path/tamp
+[0.030s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/environment/ament_prefix_path.sh
+[0.030s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/environment/ament_prefix_path.dsv
+[0.030s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/environment/path.sh
+[0.030s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/environment/path.dsv
+[0.030s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/local_setup.bash
+[0.030s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/local_setup.sh
+[0.030s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/local_setup.zsh
+[0.030s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/local_setup.dsv
+[0.030s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/package.dsv
+[0.030s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/ament_index/resource_index/packages/tamp
+[0.030s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/cmake/tampConfig.cmake
+[0.030s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/cmake/tampConfig-version.cmake
+[0.030s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp/share/tamp/package.xml
+[0.031s] Invoked command in '/home/home/sdl_cutamp_ws/build/tamp' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/home/sdl_cutamp_ws/build/tamp

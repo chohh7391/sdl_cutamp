@@ -78,7 +78,7 @@ def load_fr5_container(tensor_args: TensorDeviceType) -> RobotContainer:
     rpy = tensor_args.to_device([torch.pi, 0, torch.pi / 2])
     tool_from_ee[:3, :3] = roma.euler_to_rotmat("XYZ", rpy)
     # The Robotiq gripper goes down when closing, so we move the tool frame up by 1cm
-    tool_from_ee[:3, 3] = tensor_args.to_device([0.0, 0.0, 0.01])
+    tool_from_ee[:3, 3] = tensor_args.to_device([0.0, 0.0, 0.02])
     return RobotContainer("fr5", kin_model, joint_limits, gripper_spheres, tool_from_ee)
 
 

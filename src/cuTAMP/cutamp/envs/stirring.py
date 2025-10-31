@@ -93,8 +93,8 @@ def load_stirring_env(
         movables=[
             beaker,
             magnet,
-            obstacle_1,
-            obstacle_2, 
+            # obstacle_1,
+            # obstacle_2, 
             ],
         statics=[
             table, 
@@ -103,10 +103,10 @@ def load_stirring_env(
         ex_collision=[beaker_region],
         type_to_objects={
             "Movable": [
-                obstacle_1,
-                obstacle_2,
-                magnet,
+                # obstacle_1,
+                # obstacle_2,
                 beaker,
+                magnet,
                 ],
             "Surface": [
                 table, 

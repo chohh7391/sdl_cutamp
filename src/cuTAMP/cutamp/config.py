@@ -95,7 +95,7 @@ class TAMPConfiguration:
     ## Logging Args
     enable_experiment_logging: bool = True
     # Root directory for logging experiments
-    experiment_root: str = "/home/home/sdl/src/cuTAMP/cutamp/cutamp_experiments"
+    experiment_root: str = "/home/home/sdl_cutamp_ws/src/cuTAMP/cutamp/cutamp_experiments"
 
 
 def validate_tamp_config(config: TAMPConfiguration):

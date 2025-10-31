@@ -1,0 +1,342 @@
+[0.005s] Invoking command in '/home/home/sdl_cutamp_ws/build/tamp_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/home/sdl_cutamp_ws/src/tamp_interfaces -DCMAKE_INSTALL_PREFIX=/home/home/sdl_cutamp_ws/install/tamp_interfaces
+[0.025s] -- The C compiler identification is GNU 11.4.0
+[0.046s] -- The CXX compiler identification is GNU 11.4.0
+[0.048s] -- Detecting C compiler ABI info
+[0.073s] -- Detecting C compiler ABI info - done
+[0.076s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.076s] -- Detecting C compile features
+[0.077s] -- Detecting C compile features - done
+[0.078s] -- Detecting CXX compiler ABI info
+[0.106s] -- Detecting CXX compiler ABI info - done
+[0.110s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.110s] -- Detecting CXX compile features
+[0.110s] -- Detecting CXX compile features - done
+[0.111s] -- Found ament_cmake: 1.3.12 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.171s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[0.206s] -- Found std_msgs: 4.9.0 (/opt/ros/humble/share/std_msgs/cmake)
+[0.219s] -- Found rosidl_generator_c: 3.1.7 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[0.221s] -- Found rosidl_adapter: 3.1.7 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.225s] -- Found rosidl_generator_cpp: 3.1.7 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[0.229s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.236s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.246s] -- Found trajectory_msgs: 4.9.0 (/opt/ros/humble/share/trajectory_msgs/cmake)
+[0.258s] -- Found rosidl_default_generators: 1.2.0 (/opt/ros/humble/share/rosidl_default_generators/cmake)
+[0.381s] -- Found ament_cmake_ros: 0.10.0 (/opt/ros/humble/share/ament_cmake_ros/cmake)
+[0.555s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.623s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.633s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3.6") 
+[0.634s] -- Found python_cmake_module: 0.10.0 (/opt/ros/humble/share/python_cmake_module/cmake)
+[0.646s] -- Found PythonLibs: /usr/lib/x86_64-linux-gnu/libpython3.10.so (found suitable version "3.10.12", minimum required is "3.5") 
+[0.646s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[0.646s] -- Using PYTHON_INCLUDE_DIRS: /usr/include/python3.10
+[0.646s] -- Using PYTHON_LIBRARIES: /usr/lib/x86_64-linux-gnu/libpython3.10.so
+[0.655s] -- Found PythonExtra: .so  
+[0.681s] -- Found ament_lint_auto: 0.12.14 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[0.688s] -- Added test 'copyright' to check source files copyright and LICENSE
+[0.689s] -- Added test 'lint_cmake' to check CMake code style
+[0.689s] -- Added test 'xmllint' to check XML markup files
+[0.690s] -- Configuring done
+[0.704s] -- Generating done
+[0.709s] -- Build files have been written to: /home/home/sdl_cutamp_ws/build/tamp_interfaces
+[0.713s] Invoked command in '/home/home/sdl_cutamp_ws/build/tamp_interfaces' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/home/sdl_cutamp_ws/src/tamp_interfaces -DCMAKE_INSTALL_PREFIX=/home/home/sdl_cutamp_ws/install/tamp_interfaces
+[0.714s] Invoking command in '/home/home/sdl_cutamp_ws/build/tamp_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/home/sdl_cutamp_ws/build/tamp_interfaces -- -j16 -l16
+[0.730s] [  1%] [34m[1mGenerating C code for ROS interfaces[0m
+[0.733s] [  3%] [34m[1mGenerating C++ code for ROS interfaces[0m
+[0.736s] [  3%] Built target ament_cmake_python_copy_tamp_interfaces
+[0.823s] running egg_info
+[0.823s] creating tamp_interfaces.egg-info
+[0.823s] writing tamp_interfaces.egg-info/PKG-INFO
+[0.823s] writing dependency_links to tamp_interfaces.egg-info/dependency_links.txt
+[0.823s] writing top-level names to tamp_interfaces.egg-info/top_level.txt
+[0.823s] writing manifest file 'tamp_interfaces.egg-info/SOURCES.txt'
+[0.824s] reading manifest file 'tamp_interfaces.egg-info/SOURCES.txt'
+[0.824s] writing manifest file 'tamp_interfaces.egg-info/SOURCES.txt'
+[0.834s] [  3%] Built target ament_cmake_python_build_tamp_interfaces_egg
+[0.938s] [  3%] Built target tamp_interfaces__cpp
+[0.938s] [  5%] [32mBuilding C object CMakeFiles/tamp_interfaces__rosidl_generator_c.dir/rosidl_generator_c/tamp_interfaces/msg/detail/plan_step__functions.c.o[0m
+[0.938s] [  7%] [32mBuilding C object CMakeFiles/tamp_interfaces__rosidl_generator_c.dir/rosidl_generator_c/tamp_interfaces/srv/detail/plan__functions.c.o[0m
+[0.938s] [  9%] [32mBuilding C object CMakeFiles/tamp_interfaces__rosidl_generator_c.dir/rosidl_generator_c/tamp_interfaces/srv/detail/execute__functions.c.o[0m
+[0.939s] [ 10%] [32mBuilding C object CMakeFiles/tamp_interfaces__rosidl_generator_c.dir/rosidl_generator_c/tamp_interfaces/srv/detail/set_tamp_env__functions.c.o[0m
+[0.941s] [ 12%] [34m[1mGenerating C++ type support dispatch for ROS interfaces[0m
+[0.941s] [ 16%] [34m[1mGenerating C++ type support for eProsima Fast-RTPS[0m
+[0.941s] [ 14%] [34m[1mGenerating C++ introspection for ROS interfaces[0m
+[0.964s] [ 18%] [32m[1mLinking C shared library libtamp_interfaces__rosidl_generator_c.so[0m
+[0.978s] [ 18%] Built target tamp_interfaces__rosidl_generator_c
+[0.982s] [ 20%] [34m[1mGenerating C type support for eProsima Fast-RTPS[0m
+[0.982s] [ 21%] [34m[1mGenerating C introspection for ROS interfaces[0m
+[0.982s] [ 23%] [34m[1mGenerating C type support dispatch for ROS interfaces[0m
+[1.092s] [ 25%] [32mBuilding CXX object CMakeFiles/tamp_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/tamp_interfaces/msg/plan_step__type_support.cpp.o[0m
+[1.092s] [ 27%] [32mBuilding CXX object CMakeFiles/tamp_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/tamp_interfaces/srv/execute__type_support.cpp.o[0m
+[1.092s] [ 29%] [32mBuilding CXX object CMakeFiles/tamp_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/tamp_interfaces/srv/set_tamp_env__type_support.cpp.o[0m
+[1.092s] [ 30%] [32mBuilding CXX object CMakeFiles/tamp_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/tamp_interfaces/srv/plan__type_support.cpp.o[0m
+[1.111s] [ 32%] [32mBuilding CXX object CMakeFiles/tamp_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/tamp_interfaces/msg/detail/plan_step__type_support.cpp.o[0m
+[1.112s] [ 34%] [32mBuilding CXX object CMakeFiles/tamp_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/tamp_interfaces/srv/detail/plan__type_support.cpp.o[0m
+[1.112s] [ 36%] [32mBuilding CXX object CMakeFiles/tamp_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/tamp_interfaces/srv/detail/execute__type_support.cpp.o[0m
+[1.112s] [ 38%] [32mBuilding CXX object CMakeFiles/tamp_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/tamp_interfaces/srv/detail/set_tamp_env__type_support.cpp.o[0m
+[1.136s] [ 41%] [32mBuilding CXX object CMakeFiles/tamp_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/tamp_interfaces/msg/plan_step__type_support.cpp.o[0m
+[1.139s] [ 43%] [32mBuilding CXX object CMakeFiles/tamp_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/tamp_interfaces/srv/execute__type_support.cpp.o[0m
+[1.139s] [ 43%] [32mBuilding CXX object CMakeFiles/tamp_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/tamp_interfaces/srv/plan__type_support.cpp.o[0m
+[1.139s] [ 45%] [32mBuilding CXX object CMakeFiles/tamp_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/tamp_interfaces/srv/set_tamp_env__type_support.cpp.o[0m
+[1.151s] [ 47%] [32mBuilding CXX object CMakeFiles/tamp_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/tamp_interfaces/msg/detail/dds_fastrtps/plan_step__type_support.cpp.o[0m
+[1.153s] [ 49%] [32mBuilding CXX object CMakeFiles/tamp_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/tamp_interfaces/srv/detail/dds_fastrtps/plan__type_support.cpp.o[0m
+[1.154s] [ 50%] [32mBuilding CXX object CMakeFiles/tamp_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/tamp_interfaces/srv/detail/dds_fastrtps/execute__type_support.cpp.o[0m
+[1.154s] [ 52%] [32mBuilding CXX object CMakeFiles/tamp_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/tamp_interfaces/srv/detail/dds_fastrtps/set_tamp_env__type_support.cpp.o[0m
+[1.160s] [ 54%] [32m[1mLinking CXX shared library libtamp_interfaces__rosidl_typesupport_c.so[0m
+[1.186s] [ 54%] Built target tamp_interfaces__rosidl_typesupport_c
+[1.224s] [ 56%] [32mBuilding CXX object CMakeFiles/tamp_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/tamp_interfaces/msg/detail/plan_step__type_support_c.cpp.o[0m
+[1.229s] [ 61%] [32mBuilding CXX object CMakeFiles/tamp_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/tamp_interfaces/srv/detail/execute__type_support_c.cpp.o[0m
+[1.229s] [ 61%] [32mBuilding C object CMakeFiles/tamp_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/tamp_interfaces/msg/detail/plan_step__type_support.c.o[0m
+[1.230s] [ 60%] [32mBuilding CXX object CMakeFiles/tamp_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/tamp_interfaces/srv/detail/plan__type_support_c.cpp.o[0m
+[1.230s] [ 63%] [32mBuilding CXX object CMakeFiles/tamp_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/tamp_interfaces/srv/detail/set_tamp_env__type_support_c.cpp.o[0m
+[1.230s] [ 65%] [32mBuilding C object CMakeFiles/tamp_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/tamp_interfaces/srv/detail/plan__type_support.c.o[0m
+[1.239s] [ 67%] [32mBuilding C object CMakeFiles/tamp_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/tamp_interfaces/srv/detail/execute__type_support.c.o[0m
+[1.240s] [ 69%] [32m[1mLinking CXX shared library libtamp_interfaces__rosidl_typesupport_cpp.so[0m
+[1.269s] [ 70%] [32mBuilding C object CMakeFiles/tamp_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/tamp_interfaces/srv/detail/set_tamp_env__type_support.c.o[0m
+[1.278s] [ 70%] Built target tamp_interfaces__rosidl_typesupport_cpp
+[1.310s] [ 72%] [32m[1mLinking C shared library libtamp_interfaces__rosidl_typesupport_introspection_c.so[0m
+[1.347s] [ 72%] Built target tamp_interfaces__rosidl_typesupport_introspection_c
+[1.429s] [ 74%] [32m[1mLinking CXX shared library libtamp_interfaces__rosidl_typesupport_fastrtps_cpp.so[0m
+[1.430s] [ 76%] [32m[1mLinking CXX shared library libtamp_interfaces__rosidl_typesupport_introspection_cpp.so[0m
+[1.431s] [ 78%] [32m[1mLinking CXX shared library libtamp_interfaces__rosidl_typesupport_fastrtps_c.so[0m
+[1.460s] [ 78%] Built target tamp_interfaces__rosidl_typesupport_fastrtps_c
+[1.461s] [ 78%] Built target tamp_interfaces__rosidl_typesupport_fastrtps_cpp
+[1.462s] [ 78%] Built target tamp_interfaces__rosidl_typesupport_introspection_cpp
+[1.469s] [ 78%] Built target tamp_interfaces
+[1.476s] [ 80%] [34m[1mGenerating Python code for ROS interfaces[0m
+[1.791s] [ 80%] Built target tamp_interfaces__py
+[1.799s] [ 81%] [32mBuilding C object CMakeFiles/tamp_interfaces__rosidl_generator_py.dir/rosidl_generator_py/tamp_interfaces/srv/_plan_s.c.o[0m
+[1.799s] [ 85%] [32mBuilding C object CMakeFiles/tamp_interfaces__rosidl_generator_py.dir/rosidl_generator_py/tamp_interfaces/srv/_execute_s.c.o[0m
+[1.799s] [ 87%] [32mBuilding C object CMakeFiles/tamp_interfaces__rosidl_generator_py.dir/rosidl_generator_py/tamp_interfaces/msg/_plan_step_s.c.o[0m
+[1.799s] [ 87%] [32mBuilding C object CMakeFiles/tamp_interfaces__rosidl_generator_py.dir/rosidl_generator_py/tamp_interfaces/srv/_set_tamp_env_s.c.o[0m
+[1.844s] [ 89%] [32m[1mLinking C shared library rosidl_generator_py/tamp_interfaces/libtamp_interfaces__rosidl_generator_py.so[0m
+[1.861s] [ 89%] Built target tamp_interfaces__rosidl_generator_py
+[1.868s] [ 90%] [32mBuilding C object CMakeFiles/tamp_interfaces__rosidl_typesupport_c__pyext.dir/rosidl_generator_py/tamp_interfaces/_tamp_interfaces_s.ep.rosidl_typesupport_c.c.o[0m
+[1.868s] [ 94%] [32mBuilding C object CMakeFiles/tamp_interfaces__rosidl_typesupport_fastrtps_c__pyext.dir/rosidl_generator_py/tamp_interfaces/_tamp_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c.o[0m
+[1.868s] [ 94%] [32mBuilding C object CMakeFiles/tamp_interfaces__rosidl_typesupport_introspection_c__pyext.dir/rosidl_generator_py/tamp_interfaces/_tamp_interfaces_s.ep.rosidl_typesupport_introspection_c.c.o[0m
+[1.912s] [100%] [32m[1mLinking C shared library rosidl_generator_py/tamp_interfaces/tamp_interfaces_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so[0m
+[1.912s] [100%] [32m[1mLinking C shared library rosidl_generator_py/tamp_interfaces/tamp_interfaces_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so[0m
+[1.912s] [100%] [32m[1mLinking C shared library rosidl_generator_py/tamp_interfaces/tamp_interfaces_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so[0m
+[1.927s] [100%] Built target tamp_interfaces__rosidl_typesupport_introspection_c__pyext
+[1.927s] [100%] Built target tamp_interfaces__rosidl_typesupport_c__pyext
+[1.927s] [100%] Built target tamp_interfaces__rosidl_typesupport_fastrtps_c__pyext
+[1.931s] Invoked command in '/home/home/sdl_cutamp_ws/build/tamp_interfaces' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/home/sdl_cutamp_ws/build/tamp_interfaces -- -j16 -l16
+[1.932s] Invoking command in '/home/home/sdl_cutamp_ws/build/tamp_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/home/sdl_cutamp_ws/build/tamp_interfaces
+[1.935s] -- Install configuration: ""
+[1.935s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/ament_index/resource_index/rosidl_interfaces/tamp_interfaces
+[1.935s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces
+[1.935s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv
+[1.935s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/execute.h
+[1.935s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/set_tamp_env.h
+[1.935s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/plan.h
+[1.935s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail
+[1.935s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/set_tamp_env__struct.h
+[1.935s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/execute__functions.c
+[1.935s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/execute__type_support.h
+[1.935s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/set_tamp_env__functions.h
+[1.935s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/plan__functions.c
+[1.935s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/set_tamp_env__functions.c
+[1.936s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/execute__functions.h
+[1.936s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/plan__type_support.h
+[1.936s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/execute__struct.h
+[1.936s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/plan__struct.h
+[1.936s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/plan__functions.h
+[1.936s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/set_tamp_env__type_support.h
+[1.936s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg
+[1.936s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg/rosidl_generator_c__visibility_control.h
+[1.936s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg/plan_step.h
+[1.936s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg/detail
+[1.936s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg/detail/plan_step__functions.h
+[1.936s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg/detail/plan_step__functions.c
+[1.936s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg/detail/plan_step__struct.h
+[1.936s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg/detail/plan_step__type_support.h
+[1.936s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/environment/library_path.sh
+[1.936s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/environment/library_path.dsv
+[1.936s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/lib/libtamp_interfaces__rosidl_generator_c.so
+[1.936s] -- Set runtime path of "/home/home/sdl_cutamp_ws/install/tamp_interfaces/lib/libtamp_interfaces__rosidl_generator_c.so" to ""
+[1.936s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces
+[1.936s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv
+[1.936s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail
+[1.936s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/set_tamp_env__rosidl_typesupport_fastrtps_c.h
+[1.936s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/execute__rosidl_typesupport_fastrtps_c.h
+[1.936s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/plan__rosidl_typesupport_fastrtps_c.h
+[1.936s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg
+[1.936s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+[1.936s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg/detail
+[1.936s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg/detail/plan_step__rosidl_typesupport_fastrtps_c.h
+[1.936s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/lib/libtamp_interfaces__rosidl_typesupport_fastrtps_c.so
+[1.936s] -- Set runtime path of "/home/home/sdl_cutamp_ws/install/tamp_interfaces/lib/libtamp_interfaces__rosidl_typesupport_fastrtps_c.so" to ""
+[1.937s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces
+[1.937s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv
+[1.937s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/set_tamp_env.hpp
+[1.937s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/execute.hpp
+[1.937s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/plan.hpp
+[1.937s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail
+[1.937s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/set_tamp_env__struct.hpp
+[1.937s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/plan__builder.hpp
+[1.937s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/execute__type_support.hpp
+[1.937s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/execute__builder.hpp
+[1.937s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/execute__traits.hpp
+[1.937s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/plan__struct.hpp
+[1.937s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/set_tamp_env__builder.hpp
+[1.937s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/plan__type_support.hpp
+[1.937s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/set_tamp_env__type_support.hpp
+[1.937s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/set_tamp_env__traits.hpp
+[1.937s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/execute__struct.hpp
+[1.937s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/plan__traits.hpp
+[1.937s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg
+[1.937s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg/rosidl_generator_cpp__visibility_control.hpp
+[1.937s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg/detail
+[1.937s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg/detail/plan_step__traits.hpp
+[1.937s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg/detail/plan_step__builder.hpp
+[1.937s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg/detail/plan_step__type_support.hpp
+[1.937s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg/detail/plan_step__struct.hpp
+[1.937s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg/plan_step.hpp
+[1.937s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces
+[1.937s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv
+[1.937s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail
+[1.937s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/plan__rosidl_typesupport_fastrtps_cpp.hpp
+[1.937s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/execute__rosidl_typesupport_fastrtps_cpp.hpp
+[1.937s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/dds_fastrtps
+[1.937s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/set_tamp_env__rosidl_typesupport_fastrtps_cpp.hpp
+[1.937s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg
+[1.937s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg/detail
+[1.937s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg/detail/plan_step__rosidl_typesupport_fastrtps_cpp.hpp
+[1.937s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg/detail/dds_fastrtps
+[1.937s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+[1.937s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/lib/libtamp_interfaces__rosidl_typesupport_fastrtps_cpp.so
+[1.938s] -- Set runtime path of "/home/home/sdl_cutamp_ws/install/tamp_interfaces/lib/libtamp_interfaces__rosidl_typesupport_fastrtps_cpp.so" to ""
+[1.938s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces
+[1.938s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv
+[1.938s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail
+[1.938s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/set_tamp_env__rosidl_typesupport_introspection_c.h
+[1.938s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/plan__rosidl_typesupport_introspection_c.h
+[1.938s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/plan__type_support.c
+[1.938s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/set_tamp_env__type_support.c
+[1.938s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/execute__type_support.c
+[1.938s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/execute__rosidl_typesupport_introspection_c.h
+[1.938s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg
+[1.938s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg/rosidl_typesupport_introspection_c__visibility_control.h
+[1.938s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg/detail
+[1.938s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg/detail/plan_step__type_support.c
+[1.938s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg/detail/plan_step__rosidl_typesupport_introspection_c.h
+[1.938s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/lib/libtamp_interfaces__rosidl_typesupport_introspection_c.so
+[1.938s] -- Set runtime path of "/home/home/sdl_cutamp_ws/install/tamp_interfaces/lib/libtamp_interfaces__rosidl_typesupport_introspection_c.so" to ""
+[1.938s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/lib/libtamp_interfaces__rosidl_typesupport_c.so
+[1.938s] -- Set runtime path of "/home/home/sdl_cutamp_ws/install/tamp_interfaces/lib/libtamp_interfaces__rosidl_typesupport_c.so" to ""
+[1.938s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces
+[1.938s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv
+[1.938s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail
+[1.938s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/execute__rosidl_typesupport_introspection_cpp.hpp
+[1.938s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/plan__type_support.cpp
+[1.938s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/plan__rosidl_typesupport_introspection_cpp.hpp
+[1.938s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/execute__type_support.cpp
+[1.938s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/set_tamp_env__type_support.cpp
+[1.938s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/srv/detail/set_tamp_env__rosidl_typesupport_introspection_cpp.hpp
+[1.938s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg
+[1.939s] -- Up-to-date: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg/detail
+[1.939s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg/detail/plan_step__type_support.cpp
+[1.939s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/include/tamp_interfaces/tamp_interfaces/msg/detail/plan_step__rosidl_typesupport_introspection_cpp.hpp
+[1.939s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/lib/libtamp_interfaces__rosidl_typesupport_introspection_cpp.so
+[1.939s] -- Set runtime path of "/home/home/sdl_cutamp_ws/install/tamp_interfaces/lib/libtamp_interfaces__rosidl_typesupport_introspection_cpp.so" to ""
+[1.939s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/lib/libtamp_interfaces__rosidl_typesupport_cpp.so
+[1.939s] -- Set runtime path of "/home/home/sdl_cutamp_ws/install/tamp_interfaces/lib/libtamp_interfaces__rosidl_typesupport_cpp.so" to ""
+[1.939s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/environment/pythonpath.sh
+[1.939s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/environment/pythonpath.dsv
+[1.939s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces-0.0.0-py3.10.egg-info
+[1.939s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces-0.0.0-py3.10.egg-info/top_level.txt
+[1.939s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces-0.0.0-py3.10.egg-info/SOURCES.txt
+[1.939s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces-0.0.0-py3.10.egg-info/PKG-INFO
+[1.939s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces-0.0.0-py3.10.egg-info/dependency_links.txt
+[1.939s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces
+[1.939s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/tamp_interfaces_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+[1.939s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/tamp_interfaces_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+[1.939s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/_tamp_interfaces_s.ep.rosidl_typesupport_c.c
+[1.939s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/_tamp_interfaces_s.ep.rosidl_typesupport_introspection_c.c
+[1.939s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/__init__.py
+[1.939s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/_tamp_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
+[1.939s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/libtamp_interfaces__rosidl_generator_py.so
+[1.940s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/srv
+[1.940s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/srv/_plan.py
+[1.940s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/srv/_execute.py
+[1.940s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/srv/_set_tamp_env_s.c
+[1.940s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/srv/__init__.py
+[1.940s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/srv/_plan_s.c
+[1.940s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/srv/_execute_s.c
+[1.940s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/srv/_set_tamp_env.py
+[1.940s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/msg
+[1.940s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/msg/_plan_step_s.c
+[1.940s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/msg/__init__.py
+[1.940s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/msg/_plan_step.py
+[1.940s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/tamp_interfaces_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+[1.957s] Listing '/home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces'...
+[1.957s] Compiling '/home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/__init__.py'...
+[1.957s] Listing '/home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/msg'...
+[1.957s] Compiling '/home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/msg/__init__.py'...
+[1.957s] Compiling '/home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/msg/_plan_step.py'...
+[1.957s] Listing '/home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/srv'...
+[1.957s] Compiling '/home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/srv/__init__.py'...
+[1.957s] Compiling '/home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/srv/_execute.py'...
+[1.957s] Compiling '/home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/srv/_plan.py'...
+[1.957s] Compiling '/home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/srv/_set_tamp_env.py'...
+[1.959s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/tamp_interfaces_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+[1.959s] -- Set runtime path of "/home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/tamp_interfaces_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so" to ""
+[1.959s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/tamp_interfaces_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+[1.959s] -- Set runtime path of "/home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/tamp_interfaces_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so" to ""
+[1.959s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/tamp_interfaces_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+[1.959s] -- Set runtime path of "/home/home/sdl_cutamp_ws/install/tamp_interfaces/local/lib/python3.10/dist-packages/tamp_interfaces/tamp_interfaces_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so" to ""
+[1.959s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/lib/libtamp_interfaces__rosidl_generator_py.so
+[1.959s] -- Set runtime path of "/home/home/sdl_cutamp_ws/install/tamp_interfaces/lib/libtamp_interfaces__rosidl_generator_py.so" to ""
+[1.959s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/msg/PlanStep.idl
+[1.959s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/srv/Plan.idl
+[1.959s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/srv/Execute.idl
+[1.959s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/srv/SetTampEnv.idl
+[1.959s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/msg/PlanStep.msg
+[1.959s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/srv/Plan.srv
+[1.959s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/srv/Plan_Request.msg
+[1.960s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/srv/Plan_Response.msg
+[1.960s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/srv/Execute.srv
+[1.960s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/srv/Execute_Request.msg
+[1.960s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/srv/Execute_Response.msg
+[1.960s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/srv/SetTampEnv.srv
+[1.960s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/srv/SetTampEnv_Request.msg
+[1.960s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/srv/SetTampEnv_Response.msg
+[1.960s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/ament_index/resource_index/package_run_dependencies/tamp_interfaces
+[1.960s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/ament_index/resource_index/parent_prefix_path/tamp_interfaces
+[1.960s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/environment/ament_prefix_path.sh
+[1.960s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/environment/ament_prefix_path.dsv
+[1.960s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/environment/path.sh
+[1.960s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/environment/path.dsv
+[1.960s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/local_setup.bash
+[1.960s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/local_setup.sh
+[1.960s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/local_setup.zsh
+[1.960s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/local_setup.dsv
+[1.960s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/package.dsv
+[1.960s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/ament_index/resource_index/packages/tamp_interfaces
+[1.960s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/cmake/export_tamp_interfaces__rosidl_generator_cExport.cmake
+[1.960s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/cmake/export_tamp_interfaces__rosidl_generator_cExport-noconfig.cmake
+[1.960s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/cmake/export_tamp_interfaces__rosidl_typesupport_fastrtps_cExport.cmake
+[1.960s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/cmake/export_tamp_interfaces__rosidl_typesupport_fastrtps_cExport-noconfig.cmake
+[1.960s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/cmake/export_tamp_interfaces__rosidl_generator_cppExport.cmake
+[1.960s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/cmake/export_tamp_interfaces__rosidl_typesupport_fastrtps_cppExport.cmake
+[1.960s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/cmake/export_tamp_interfaces__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake
+[1.960s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/cmake/tamp_interfaces__rosidl_typesupport_introspection_cExport.cmake
+[1.960s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/cmake/tamp_interfaces__rosidl_typesupport_introspection_cExport-noconfig.cmake
+[1.960s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/cmake/tamp_interfaces__rosidl_typesupport_cExport.cmake
+[1.960s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/cmake/tamp_interfaces__rosidl_typesupport_cExport-noconfig.cmake
+[1.961s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/cmake/tamp_interfaces__rosidl_typesupport_introspection_cppExport.cmake
+[1.961s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/cmake/tamp_interfaces__rosidl_typesupport_introspection_cppExport-noconfig.cmake
+[1.961s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/cmake/tamp_interfaces__rosidl_typesupport_cppExport.cmake
+[1.961s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/cmake/tamp_interfaces__rosidl_typesupport_cppExport-noconfig.cmake
+[1.961s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/cmake/export_tamp_interfaces__rosidl_generator_pyExport.cmake
+[1.961s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/cmake/export_tamp_interfaces__rosidl_generator_pyExport-noconfig.cmake
+[1.961s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/cmake/rosidl_cmake-extras.cmake
+[1.961s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/cmake/ament_cmake_export_dependencies-extras.cmake
+[1.961s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/cmake/ament_cmake_export_include_directories-extras.cmake
+[1.961s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/cmake/ament_cmake_export_libraries-extras.cmake
+[1.961s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/cmake/ament_cmake_export_targets-extras.cmake
+[1.961s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+[1.961s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+[1.961s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/cmake/tamp_interfacesConfig.cmake
+[1.961s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/cmake/tamp_interfacesConfig-version.cmake
+[1.961s] -- Installing: /home/home/sdl_cutamp_ws/install/tamp_interfaces/share/tamp_interfaces/package.xml
+[1.962s] Invoked command in '/home/home/sdl_cutamp_ws/build/tamp_interfaces' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/home/sdl_cutamp_ws/build/tamp_interfaces

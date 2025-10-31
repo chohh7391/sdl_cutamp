@@ -1,0 +1,23 @@
+[0.006s] Invoking command in '/home/home/sdl_cutamp_ws/build/tamp_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble CONDA_PROMPT_MODIFIER=(cutamp) /usr/bin/cmake --build /home/home/sdl_cutamp_ws/build/tamp_interfaces -- -j16 -l16
+[0.024s] [  1%] Built target tamp_interfaces__cpp
+[0.025s] [ 12%] Built target tamp_interfaces__rosidl_generator_c
+[0.028s] [ 12%] Built target ament_cmake_python_copy_tamp_interfaces
+[0.033s] [ 23%] Built target tamp_interfaces__rosidl_typesupport_introspection_cpp
+[0.033s] [ 34%] Built target tamp_interfaces__rosidl_typesupport_fastrtps_cpp
+[0.033s] [ 45%] Built target tamp_interfaces__rosidl_typesupport_introspection_c
+[0.033s] [ 56%] Built target tamp_interfaces__rosidl_typesupport_cpp
+[0.034s] [ 67%] Built target tamp_interfaces__rosidl_typesupport_c
+[0.035s] [ 78%] Built target tamp_interfaces__rosidl_typesupport_fastrtps_c
+[0.041s] [ 78%] Built target tamp_interfaces
+[0.048s] [ 80%] Built target tamp_interfaces__py
+[0.056s] [ 89%] Built target tamp_interfaces__rosidl_generator_py
+[0.063s] [ 92%] Built target tamp_interfaces__rosidl_typesupport_fastrtps_c__pyext
+[0.063s] [ 98%] Built target tamp_interfaces__rosidl_typesupport_introspection_c__pyext
+[0.063s] [100%] Built target tamp_interfaces__rosidl_typesupport_c__pyext
+[0.115s] running egg_info
+[0.115s] writing tamp_interfaces.egg-info/PKG-INFO
+[0.115s] writing dependency_links to tamp_interfaces.egg-info/dependency_links.txt
+[0.115s] writing top-level names to tamp_interfaces.egg-info/top_level.txt
+[0.116s] reading manifest file 'tamp_interfaces.egg-info/SOURCES.txt'
+[0.116s] writing manifest file 'tamp_interfaces.egg-info/SOURCES.txt'
+[0.127s] [100%] Built target ament_cmake_python_build_tamp_interfaces_egg

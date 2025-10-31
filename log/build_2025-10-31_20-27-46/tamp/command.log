@@ -1,0 +1,2 @@
+Invoking command in '/home/home/sdl_cutamp_ws/build/tamp': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble CONDA_PROMPT_MODIFIER=(cutamp) /usr/bin/cmake --build /home/home/sdl_cutamp_ws/build/tamp -- -j16 -l16
+Invoked command in '/home/home/sdl_cutamp_ws/build/tamp' returned '2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble CONDA_PROMPT_MODIFIER=(cutamp) /usr/bin/cmake --build /home/home/sdl_cutamp_ws/build/tamp -- -j16 -l16

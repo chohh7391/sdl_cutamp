@@ -1,0 +1,127 @@
+from typing import Optional
+import torch
+from curobo.geom.types import Cuboid, Cylinder
+from curobo.types.base import TensorDeviceType
+from cutamp.envs import TAMPEnvironment
+from cutamp.envs.utils import unit_quat
+from cutamp.tamp_domain import HandEmpty, On, OnBeaker
+from cutamp.utils.shapes import MultiSphere
+
+def load_stirring_env(
+    tensor_args: TensorDeviceType = TensorDeviceType(),
+) -> TAMPEnvironment:
+    """Pick-and-place environment with a cylindrical beaker and small MultiSphere near goal."""
+
+    # Objects (movables or statics)
+    table = Cuboid(
+        name="table",
+        dims=[1.5, 1.5, 0.02],
+        pose=[0.0, 0.0, -0.01, *unit_quat],
+        color=[235, 196, 145],
+    )
+
+    goal_region = Cuboid(
+        name="goal",
+        dims=[0.1, 0.1, 0.01],
+        pose=[-0.3, 0.0, 0.01, *unit_quat],
+        color=[186, 255, 201],
+    )
+
+    flask = Cuboid(
+        name="flask", 
+        dims=[0.06, 0.06, 0.08], 
+        pose=[0.4, 0.2, 0.065, *unit_quat], 
+        color=[0, 0, 255]
+    )
+
+    beaker_region = Cuboid(
+        name="beaker_region",
+        dims=[0.06, 0.06, 0.0001],  # practically invisible
+        pose=[-0.3, 0.0, 0.16, *unit_quat],  # floating above goal
+        color=[255, 255, 255],
+    )
+
+    magnet_spheres = torch.tensor(
+        [
+            [ 0.0, -0.01, 0.01, 0.01],  # magnet 중심 기준 첫 번째 구
+            [ 0.0,  0.01, 0.01, 0.01],  # magnet 중심 기준 두 번째 구
+        ],
+        dtype=torch.float32,
+        device=tensor_args.device,
+    )
+
+    # magnet = MultiSphere(
+    #     name="magnet",
+    #     spheres=magnet_spheres,
+    #     pose=[-0.4, 0.3, 0.005, *unit_quat], # magnet의 월드 좌표계상 중심 위치
+    #     color=[255, 0, 0],  # 빨간색
+    #     tensor_args=tensor_args,
+    # )
+
+    magnet = Cuboid(
+        name="magnet", 
+        dims=[0.045, 0.045, 0.03], 
+        pose=[-0.4, 0.3, 0.018, *unit_quat], 
+        color=[255, 0, 255]
+    )
+
+    obstacle_1 = Cuboid(
+        name="obstacle_1", 
+        dims=[0.07, 0.07, 0.1], 
+        pose=[0.2, 0.2, 0.076, *unit_quat], 
+        color=[255, 0, 255]
+    )
+
+    obstacle_2 = Cuboid(
+        name="obstacle_2", 
+        dims=[0.07, 0.07, 0.1], 
+        pose=[-0.2, -0.2, 0.076, *unit_quat], 
+        color=[255, 0, 255]
+    )
+
+    # Define goal state
+    goal_state = frozenset(
+        { 
+         HandEmpty.ground(),
+         On.ground(flask.name, goal_region.name), 
+         On.ground(magnet.name, beaker_region.name),
+         OnBeaker.ground(magnet.name, beaker_region.name), 
+        }
+    )
+
+    # -------------------- 환경 구성 --------------------
+    env = TAMPEnvironment(
+        name="stirring",
+        movables=[
+            flask,
+            magnet,
+            # obstacle_1,
+            # obstacle_2, 
+        ],
+        statics=[
+            table, 
+            goal_region,
+        ],
+        ex_collision=[beaker_region],
+        type_to_objects={
+            "Movable": [
+                flask,
+                magnet,
+                # obstacle_1,
+                # obstacle_2,
+            ],
+            "Surface": [
+                beaker_region,
+                table, 
+                goal_region, 
+            ],
+            "ExCollision":[
+                beaker_region,
+            ]
+        },
+        goal_state=goal_state,
+    )
+
+    print(f"")
+
+    return env
