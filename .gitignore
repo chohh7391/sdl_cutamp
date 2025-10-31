@@ -15,6 +15,7 @@
 
 # Outputs
 **/runs/*
+**/log/*
 **/logs/*
 **/build/*
 **/install/*
