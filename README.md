@@ -101,20 +101,14 @@ install_path:=$HOME/IsaacSim/_build/linux-x86_64/release exclude_install_path:=h
 
 ## TAMP
 
-```
-source /opt/ros/humble/setup.bash
-source ~/sdl_cutamp_ws/install/local_setup.bash
-conda activate cutamp
-```
 
 - Run TAMP Server
-    
-    ```
-    export SYSTEM_LIBSTDCXX_PATH="/usr/lib/x86_64-linux-gnu/libstdc++.so.6"
-    ```
 
-    - run server
     ```
+    source /opt/ros/humble/setup.bash
+    source ~/sdl_cutamp_ws/install/local_setup.bash
+    conda activate cutamp
+    export SYSTEM_LIBSTDCXX_PATH="/usr/lib/x86_64-linux-gnu/libstdc++.so.6"
     LD_PRELOAD="${SYSTEM_LIBSTDCXX_PATH}" ros2 run tamp tamp_server.py
     ```
 
@@ -123,11 +117,24 @@ conda activate cutamp
     - run client
 
     ```
+    source /opt/ros/humble/setup.bash
+    source ~/sdl_cutamp_ws/install/local_setup.bash
     ros2 run tamp tamp_client.py
-    ```
+    ```    
+    
+    - set tamp env
+
+      - pouring
+        ```
+        (csuite) set_tamp_env pouring
+        ```
+
+      - stirring
+        ```
+        (csuite) set_tamp_env stirring
+        ```
 
     - plan
-  
     ```
     (csuite) plan
     ```
@@ -135,11 +142,6 @@ conda activate cutamp
     - execute
     ```
     (csuite) execute
-    ```
-    
-    - set tamp env
-    ```
-    (csuite) set_tamp_env
     ```
 
 
