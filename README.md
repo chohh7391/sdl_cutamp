@@ -95,7 +95,7 @@ source ~/sdl_cutamp_ws/install/local_setup.bash
 
 ```
 ros2 launch isaacsim run_isaacsim.launch.py \
-standalone:=$HOME/sdl_cutamp_ws/src/isaacsim/scripts/standalone/simulation_fr5.py \
+standalone:=$HOME/sdl_cutamp_ws/src/isaacsim/scripts/standalone/simulation.py \
 install_path:=$HOME/IsaacSim/_build/linux-x86_64/release exclude_install_path:=home/home/sdl_cutamp_ws/install
 ```
 
