@@ -39,15 +39,14 @@ class TAMP:
     def __init__(
         self,
         config: TAMPConfiguration,
-        env: TAMPEnvironment,
         use_tetris_tuned_weights: bool = None,
     ):
         validate_tamp_config(config)
 
-        self.env_manager = TAMPEnvManager()
-
         self.config = config
-        self.env = env
+
+        self.env_manager = TAMPEnvManager()
+        self.env = None
 
         setup_logging()
 
@@ -62,23 +61,6 @@ class TAMP:
 
         self.curobo_plan = None
         self.total_num_satisfying = None
-
-
-    def plan(
-        self,
-        q_init: Optional[List[float]] = None,
-        experiment_id: Optional[str] = None
-    ):
-        self.curobo_plan, self.total_num_satisfying = run_cutamp(
-            env=self.env,
-            config=self.config,
-            cost_reducer=self.cost_reducer,
-            constraint_checker=self.constraint_checker,
-            q_init=q_init,
-            experiment_id=experiment_id
-        )
-
-        return self.curobo_plan, self.total_num_satisfying
 
 
     def update_config(self, config: TAMPConfiguration):
@@ -101,7 +83,25 @@ class TAMP:
         )
         self.env = self.env_manager.load_env(name)
 
+    
+    def plan(
+        self,
+        q_init: Optional[List[float]] = None,
+        experiment_id: Optional[str] = None
+    ):
+        if self.env is not None:
+            self.curobo_plan, self.total_num_satisfying = run_cutamp(
+                env=self.env,
+                config=self.config,
+                cost_reducer=self.cost_reducer,
+                constraint_checker=self.constraint_checker,
+                q_init=q_init,
+                experiment_id=experiment_id
+            )
+        else:
+            raise ValueError("update_env is needed before plan")
 
+        return self.curobo_plan, self.total_num_satisfying
 
 
 
@@ -412,11 +412,8 @@ if __name__ == "__main__":
         enable_experiment_logging=False
     )
 
-    env = load_demo_env(name="pouring")
-
     tamp = TAMP(
         config=config,
-        env=env,
         use_tetris_tuned_weights=None
     )
 
