@@ -96,14 +96,19 @@ class TAMP:
         if self.env is not None:
             for _ in range(self.max_attempts):
                 env = copy.deepcopy(self.env)
-                self.curobo_plan, self.total_num_satisfying = run_cutamp(
-                    env=env,
-                    config=self.config,
-                    cost_reducer=self.cost_reducer,
-                    constraint_checker=self.constraint_checker,
-                    q_init=q_init,
-                    experiment_id=experiment_id
-                )
+                
+                try:
+                    self.curobo_plan, self.total_num_satisfying = run_cutamp(
+                        env=env,
+                        config=self.config,
+                        cost_reducer=self.cost_reducer,
+                        constraint_checker=self.constraint_checker,
+                        q_init=q_init,
+                        experiment_id=experiment_id
+                    )
+                except Exception as e:
+                    print(f"An unexpected error occurred: {e}")
+                    self.total_num_satisfying = 0
 
                 if self.total_num_satisfying > 0:
                     break
