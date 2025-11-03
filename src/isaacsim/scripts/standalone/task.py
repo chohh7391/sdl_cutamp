@@ -59,7 +59,7 @@ class Task(ABC, BaseTask):
         self.scene.add(self._robot)
 
     def set_robot(self) -> FR5:
-        robot_asset_path = os.path.join(os.path.abspath(__file__), "..", "..", "..", "..", "cuTAMP/cutamp/robots/assets/dcp_description/usd/fr5_ag95/fr5_ag95.usd")
+        robot_asset_path = os.path.join(os.path.abspath(__file__), "..", "..", "..", "..", "tamp/content/assets/robot/dcp_description/usd/fr5_ag95/fr5_ag95.usd")
         robot_prim_path = find_unique_string_name(
             initial_name=self._robot_prim_path, is_unique_fn=lambda x: not is_prim_path_valid(x)
         )

@@ -16,6 +16,7 @@ from rclpy.executors import MultiThreadedExecutor
 from rclpy.callback_groups import ReentrantCallbackGroup
 
 from typing import Optional, List, Dict
+import copy
 
 from cutamp.algorithm import run_cutamp
 from cutamp.config import TAMPConfiguration, validate_tamp_config
@@ -29,9 +30,8 @@ from cutamp.scripts.utils import (
 from cutamp.task_planning.base_structs import State
 import logging
 from cutamp.cost_reduction import CostReducer
-from cutamp.envs import TAMPEnvironment
 
-from envs.utils import load_demo_env, TAMPEnvManager
+from envs.utils import TAMPEnvManager
 
 
 class TAMP:
@@ -62,6 +62,8 @@ class TAMP:
         self.curobo_plan = None
         self.total_num_satisfying = None
 
+        self.max_attempts = 3
+
 
     def update_config(self, config: TAMPConfiguration):
         self.config = config
@@ -89,15 +91,22 @@ class TAMP:
         q_init: Optional[List[float]] = None,
         experiment_id: Optional[str] = None
     ):
+        self.total_num_satisfying = 0
+
         if self.env is not None:
-            self.curobo_plan, self.total_num_satisfying = run_cutamp(
-                env=self.env,
-                config=self.config,
-                cost_reducer=self.cost_reducer,
-                constraint_checker=self.constraint_checker,
-                q_init=q_init,
-                experiment_id=experiment_id
-            )
+            for _ in range(self.max_attempts):
+                env = copy.deepcopy(self.env)
+                self.curobo_plan, self.total_num_satisfying = run_cutamp(
+                    env=env,
+                    config=self.config,
+                    cost_reducer=self.cost_reducer,
+                    constraint_checker=self.constraint_checker,
+                    q_init=q_init,
+                    experiment_id=experiment_id
+                )
+
+                if self.total_num_satisfying > 0:
+                    break
         else:
             raise ValueError("update_env is needed before plan")
 

@@ -1,13 +1,10 @@
-from typing import Optional, Dict, Any, List
+from typing import Dict, List
 from dataclasses import dataclass, field
 
 import torch
 from curobo.geom.types import Cuboid, Cylinder
-from curobo.types.base import TensorDeviceType
 from cutamp.envs import TAMPEnvironment
 from cutamp.envs.utils import unit_quat
-from cutamp.tamp_domain import HandEmpty, On, Poured, OnBeaker
-from cutamp.utils.shapes import MultiSphere
 from cutamp.envs import TAMPEnvironment
 
 from envs.pouring import load_pouring_env
@@ -31,18 +28,6 @@ ENTITIES = {
     "obstacle_1": Cuboid(name="obstacle_1", pose=[0.0, 0.0, 0.0, *unit_quat], dims=[0.07, 0.07, 0.1], color=[255, 0, 255]),
     "obstacle_2": Cuboid(name="obstacle_2", pose=[0.0, 0.0, 0.0, *unit_quat], dims=[0.07, 0.07, 0.1], color=[255, 0, 255]),
 }
-
-
-def load_demo_env(name: str) -> TAMPEnvironment:
-    # Envs for SDL
-    if name == "pouring":
-        env = load_pouring_env()
-    elif name == "stirring":
-        env = load_stirring_env()
-    else:
-        raise ValueError(f"Unknown environment name: {name}")
-    return env
-
 
 
 class TAMPEnvManager:
@@ -95,54 +80,27 @@ class TAMPEnvManager:
 
             if name == "pouring":
 
-                self.entities["pour_region"].pose = [0.0, 0.5, 0.15, *unit_quat]
-                self.entities["goal_region"].pose = [0.3, 0.0, 0.01, *unit_quat]
-
-                env = TAMPEnvironment(
-                    name=name,
+                env = load_pouring_env(
+                    entities=self.entities,
                     movables=self.movables,
                     statics=self.statics,
                     ex_collision=self.ex_collision,
-                    type_to_objects={
-                        "Movable": self.movables,
-                        "Surface": [self.entities["table"], self.entities["pour_region"], self.entities["goal_region"]],
-                        "ExCollision": [self.entities["pour_region"]]
-                    },
-                    goal_state=frozenset(
-                        { 
-                            On.ground(self.entities["beaker"].name, self.entities["goal_region"].name), 
-                            HandEmpty.ground(),
-                            Poured.ground(self.entities["beaker"].name, self.entities["pour_region"].name),
-                        }
-                    )
                 )
 
             elif name == "stirring":
 
-                self.entities["beaker_region"].pose = [0.3, 0.3, 0.16, *unit_quat]
-                self.entities["goal_region"].pose = [0.3, 0.3, 0.0125, *unit_quat]
-
-                env = TAMPEnvironment(
-                    name=name,
+                env = load_stirring_env(
+                    entities=self.entities,
                     movables=self.movables,
                     statics=self.statics,
                     ex_collision=self.ex_collision,
-                    type_to_objects={
-                        "Movable": self.movables,
-                        "Surface": [self.entities["table"], self.entities["stirrer"], self.entities["beaker_region"], self.entities["goal_region"]],
-                        "ExCollision": [self.entities["beaker_region"]]
-                    },
-                    goal_state=frozenset(
-                        {
-                            HandEmpty.ground(),
-                            On.ground(self.entities["flask"].name, self.entities["goal_region"].name), 
-                            On.ground(self.entities["magnet"].name, self.entities["beaker_region"].name),
-                            OnBeaker.ground(self.entities["magnet"].name, self.entities["beaker_region"].name), 
-                        }
-                    )
                 )
+
             else:
                 raise ValueError("name should be only 'pouring' or 'stirring'")
+            
+            self.is_update_entities = False
+            
         else:
             raise ValueError("Do 'update_entities' methods before loading env")
         
