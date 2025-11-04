@@ -4,7 +4,7 @@ import sys
 
 import rclpy
 from rclpy.client import Client
-from tamp_interfaces.srv import Plan, Execute, SetTampEnv
+from tamp_interfaces.srv import Plan, Execute, SetTampEnv, ChangeTool
 
 
 class bcolors:
@@ -44,11 +44,13 @@ class ControlSuiteShell(cmd.Cmd):
         self.plan_client = self.node.create_client(Plan, 'tamp_plan')
         self.execute_client = self.node.create_client(Execute, 'plan_execute')
         self.set_tamp_env_client = self.node.create_client(SetTampEnv, 'set_tamp_env')
+        self.tool_change_client = self.node.create_client(ChangeTool, 'change_tool')
 
         while (
             not self.plan_client.wait_for_service(timeout_sec=1.0) and 
             not self.execute_client.wait_for_service(timeout_sec=1.0) and
-            not self.set_tamp_env_client.wait_for_service(timeout_sec=1.0)
+            not self.set_tamp_env_client.wait_for_service(timeout_sec=1.0) and 
+            not self.tool_change_client.wait_for_service(timeout_sec=1.0)
         ):
             self.get_logger().info('service not available, waiting again...')
 
@@ -58,7 +60,7 @@ class ControlSuiteShell(cmd.Cmd):
     def do_plan(self, arg):
         env_name = arg.strip() if arg else "pouring" # Default to "pouring" if no arg
         if not env_name:
-            print("Usage: plan <env_name>")
+            self.node.get_logger().info("Usage: plan <env_name>")
             return
         request = Plan.Request()
         request.env_name = env_name
@@ -66,9 +68,9 @@ class ControlSuiteShell(cmd.Cmd):
         response = self._call_service_and_wait(self.plan_client, request)
 
         if response:
-            print(f"Service call successful, result: {response.plan_success}")
+            self.node.get_logger().info(f"Service call successful, result: {response.plan_success}")
         else:
-            print("Service call failed")
+            self.node.get_logger().warn("Service call failed")
 
 
     def do_execute(self, arg):
@@ -78,9 +80,9 @@ class ControlSuiteShell(cmd.Cmd):
         response = self._call_service_and_wait(self.execute_client, request)
 
         if response:
-            print(f"Service call successful, result: {response.execute_success}")
+            self.node.get_logger().info(f"Service call successful, result: {response.execute_success}")
         else:
-            print("Service call failed")
+            self.node.get_logger().warn("Service call failed")
 
 
     def do_set_tamp_env(self, arg):
@@ -104,9 +106,25 @@ class ControlSuiteShell(cmd.Cmd):
 
         response = self._call_service_and_wait(self.set_tamp_env_client, request)
         if response:
-            print(f"Service call successful, result: {response.success}")
+            self.node.get_logger().info(f"Service call successful, result: {response.success}")
         else:
-            print("Service call failed")
+            self.node.get_logger().warn("Service call failed")
+
+    
+    def do_tool_change(self, arg):
+
+        available_tools = ["ag95", "2f_85"]
+        assert arg.strip() not in available_tools, f"Error: Tool '{arg.strip()}' is not supported."
+
+        request = ChangeTool.Request()
+        request.desired_tool = arg.strip()
+
+        response = self._call_service_and_wait(self.tool_change_client, request)
+        if response:
+            self.node.get_logger().info(f"Service call successful, result: {response.success}")
+        else:
+            self.node.get_logger().warn("Service call failed")
+
 
 
     ##############################################################################
@@ -117,12 +135,12 @@ class ControlSuiteShell(cmd.Cmd):
         if response is not None:
             return response
         else:
-            print(f"Exception while calling service: {future.exception()}")
+            self.node.get_logger().error(f"Exception while calling service: {future.exception()}")
             return None
 
     def do_quit(self, arg):
         """Quit shell"""
-        print("Shutting down ROS 2 …")
+        self.node.get_logger().info("Shutting down ROS 2 …")
         self.node.destroy_node()
         rclpy.shutdown()
         return True
