@@ -10,6 +10,7 @@ from tamp_interfaces.msg import PlanStep
 from tamp_interfaces.srv import Plan, Execute, SetTampEnv
 from builtin_interfaces.msg import Duration
 from simulation_interfaces.srv import GetEntityState
+from std_srvs.srv import SetBool
 
 from rclpy.client import Client
 from rclpy.executors import MultiThreadedExecutor
@@ -141,8 +142,9 @@ class TAMPServer(Node):
         self.wait_start_time = None
         self.wait_duration = RclpyDuration(seconds=0.4)
 
-        # publisher
-        self.joint_command_publisher = self.create_publisher(JointState, "isaac_joint_commands", 10)
+        # commands
+        self.arm_commands_publisher = self.create_publisher(JointState, "isaac_arm_commands", 10)
+        self.gripper_commands_cli = self.create_client(SetBool, "isaac_gripper_commands", callback_group=self.reentrant_group)
 
         # subscription
         self.joint_states_subscription = self.create_subscription(JointState, "isaac_joint_states", self.joint_states_cb, 10)
@@ -163,13 +165,13 @@ class TAMPServer(Node):
 
         # clients
         self.get_entity_state_cli = self.create_client(
-            GetEntityState, 'get_entity_state', 
+            GetEntityState, 'get_entity_state',
             callback_group=self.reentrant_group
         )
 
         # robot states
         self.joint_states = JointState()
-        self.joint_commands = JointState()
+        self.arm_commands = JointState()
 
 
     async def set_tamp_env_cb(self, request, response):
@@ -347,13 +349,13 @@ class TAMPServer(Node):
             num_waypoints = plan_trajectory.position.shape[0]
 
             if self.current_plan_step < num_waypoints:
-                self.joint_commands.header.stamp = self.get_clock().now().to_msg()
-                self.joint_commands.name = plan_trajectory.joint_names
-                self.joint_commands.position = plan_trajectory.position[self.current_plan_step].tolist()
-                self.joint_commands.velocity = plan_trajectory.velocity[self.current_plan_step].tolist()
-                self.joint_commands.effort = plan_trajectory.acceleration[self.current_plan_step].tolist()
+                self.arm_commands.header.stamp = self.get_clock().now().to_msg()
+                self.arm_commands.name = plan_trajectory.joint_names
+                self.arm_commands.position = plan_trajectory.position[self.current_plan_step].tolist()
+                self.arm_commands.velocity = plan_trajectory.velocity[self.current_plan_step].tolist()
+                self.arm_commands.effort = plan_trajectory.acceleration[self.current_plan_step].tolist()
                 
-                self.joint_command_publisher.publish(self.joint_commands)
+                self.arm_commands_publisher.publish(self.arm_commands)
                 
                 self.current_plan_step += 1
             
@@ -380,27 +382,27 @@ class TAMPServer(Node):
 
 
     def execute_gripper_action(self, plan_part):
-        self.joint_commands.header.stamp = self.get_clock().now().to_msg()
-        self.joint_commands.name = ["gripper_finger1_joint"]
+        """
+        Executes a gripper action by making a synchronous service call.
+        """
+        # Wait for the service to be available.
+        if not self.gripper_commands_cli.wait_for_service(timeout_sec=1.0):
+            self.get_logger().error('Gripper command service not available.')
+            return
 
+        request = SetBool.Request()
+    
         if plan_part["action"] == "close":
-            self.joint_commands.position = [0.4] # 0.6524 is maximum value. But this value occurs penatration
-        else: # open
-            self.joint_commands.position = [0.0]
+            request.data = True
+        else:  # open
+            request.data = False
 
-        self.joint_command_publisher.publish(self.joint_commands)
+        # Use the synchronous service call. This blocks until the call is complete.
+        # This is safe due to the MultiThreadedExecutor and the client's ReentrantCallbackGroup.
+        response = self.gripper_commands_cli.call(request)
 
-    def _call_service_and_wait(self, client: Client, request):
-        future = client.call_async(request)
-        rclpy.spin_until_future_complete(self, future)
-        response = future.result()
-
-        if response is not None:
-            return response
-        else:
-            print(f"Exception while calling service: {future.exception()}")
-            return None
-
+        if not response.success:
+            self.get_logger().warn(f"Gripper action failed: {response.message}")
 
 
 if __name__ == "__main__":

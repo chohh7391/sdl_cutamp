@@ -24,24 +24,11 @@ from isaacsim.robot.manipulators.grippers.parallel_gripper import ParallelGrippe
 
 
 class FR5(Robot):
-    """[summary]
-
-    Args:
-        prim_path (str): [description]
-        name (str, optional): [description]. Defaults to "fr5_robot".
-        usd_path (Optional[str], optional): [description]. Defaults to None.
-        position (Optional[np.ndarray], optional): [description]. Defaults to None.
-        orientation (Optional[np.ndarray], optional): [description]. Defaults to None.
-        end_effector_prim_name (Optional[str], optional): [description]. Defaults to None.
-        gripper_dof_names (Optional[List[str]], optional): [description]. Defaults to None.
-        gripper_open_position (Optional[np.ndarray], optional): [description]. Defaults to None.
-        gripper_closed_position (Optional[np.ndarray], optional): [description]. Defaults to None.
-    """
 
     def __init__(
         self,
         prim_path: str,
-        name: str = "fr5_robot",
+        name: str = "fr5",
         usd_path: Optional[str] = None,
         position: Optional[np.ndarray] = None,
         orientation: Optional[np.ndarray] = None,
@@ -76,28 +63,19 @@ class FR5(Robot):
                 joint_closed_positions=gripper_closed_position,
                 action_deltas=deltas,
             )
+
+        self.joints_default_state = None
         return
 
     @property
     def end_effector(self) -> SingleRigidPrim:
-        """[summary]
-
-        Returns:
-            SingleRigidPrim: [description]
-        """
         return self._end_effector
 
     @property
     def gripper(self) -> ParallelGripper:
-        """[summary]
-
-        Returns:
-            ParallelGripper: [description]
-        """
         return self._gripper
 
     def initialize(self, physics_sim_view=None) -> None:
-        """[summary]"""
         super().initialize(physics_sim_view)
         self._end_effector = SingleRigidPrim(prim_path=self._end_effector_prim_path, name=self.name + "_end_effector")
         self._end_effector.initialize(physics_sim_view)
@@ -111,12 +89,8 @@ class FR5(Robot):
         return
 
     def post_reset(self) -> None:
-        """[summary]"""
         self.set_joints_default_state(
-            positions=np.array([
-                0.0, -1.05, -2.18, -1.57, 1.57, 0.0, # Arm joint position
-                0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, # Gripper joint position
-            ])
+            positions=self.joints_default_state
         )
         super().post_reset()
         self._gripper.post_reset()
@@ -126,12 +100,6 @@ class FR5(Robot):
         return
     
     def pre_step(self, time_step_index: int, simulation_time: float) -> None:
-        """[summary]
-
-        Args:
-            time_step_index (int): [description]
-            simulation_time (float): [description]
-        """
         self._gripper.update()
         return
 

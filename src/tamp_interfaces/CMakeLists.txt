@@ -26,6 +26,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "srv/Plan.srv"
   "srv/Execute.srv"
   "srv/SetTampEnv.srv"
+  "srv/ChangeTool.srv"
   DEPENDENCIES trajectory_msgs
   )
 # uncomment the following section in order to fill in

@@ -7,7 +7,7 @@ robot_cfg:
     usd_flip_joint_limits: []
 
     external_asset_path: "/home/home/sdl_cutamp_ws/src/tamp/content/assets"
-    urdf_path: 'robot/dcp_description/urdf/fr5_ag95.urdf'
+    urdf_path: 'robot/dcp_description/urdf/robot/fr5_ag95.urdf'
     external_robot_configs_path: "/home/home/sdl_cutamp_ws/src/tamp/content/configs/robot"
 
     base_link: 'base_link'
