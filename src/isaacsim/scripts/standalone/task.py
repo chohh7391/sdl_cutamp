@@ -44,6 +44,21 @@ class Task(ABC, BaseTask):
         self.current_orientations = None
         self.desired_tool = None
 
+        self.default_positions = {
+            "table": np.array([0.0, 0.0, -0.01]),
+            "stirrer": np.array([0.3, 0.3, 0.015]),
+            "beaker": np.array([0.4, 0.2, 0.06]),
+            "flask": np.array([0.0, 0.5, 0.04]),
+            "magnet": np.array([-0.4, 0.3, 0.015]),
+        }
+        self.default_orientations = {
+            "table": np.array([1.0, 0.0, 0.0, 0.0]),
+            "stirrer": np.array([1.0, 0.0, 0.0, 0.0]),
+            "beaker": np.array([1.0, 0.0, 0.0, 0.0]),
+            "flask": np.array([1.0, 0.0, 0.0, 0.0]),
+            "magnet": np.array([1.0, 0.0, 0.0, 0.0]),
+        }
+
         return
     
     def set_up_scene(self, scene: Scene) -> None:
@@ -122,117 +137,65 @@ class Task(ABC, BaseTask):
     def set_object(self, current_positions = None, current_orientations = None) -> FR5:
 
         if current_positions is None:
-            self.table = self.scene.add(
-                FixedCuboid(
-                    prim_path="/World/table",
-                    name="table",
-                    position=np.array([0.0, 0.0, -0.01]),
-                    orientation=np.array([1.0, 0.0, 0.0, 0.0]),
-                    scale=np.array([1.5, 1.5, 0.02]),
-                    size=1.0,
-                    color=np.array([0.922, 0.769, 0.569])
-                )
+            current_positions = self.default_positions
+            current_orientations = self.default_orientations
+
+
+        self.table = self.scene.add(
+            FixedCuboid(
+                prim_path="/World/table",
+                name="table",
+                position=current_positions["table"],
+                orientation=current_orientations["table"],
+                scale=np.array([1.5, 1.5, 0.02]),
+                size=1.0,
+                color=np.array([0.922, 0.769, 0.569])
             )
-            self.stirrer = self.scene.add(
-                DynamicCuboid(
-                    prim_path="/World/stirrer",
-                    name="stirrer",
-                    position=np.array([0.3, 0.3, 0.015]),
-                    orientation=np.array([1.0, 0.0, 0.0, 0.0]),
-                    scale=np.array([0.1, 0.1, 0.03]),
-                    size=1.0,
-                    color=np.array([0.922, 0.769, 0.569])
-                )
+        )
+        self.stirrer = self.scene.add(
+            DynamicCuboid(
+                prim_path="/World/stirrer",
+                name="stirrer",
+                position=current_positions["stirrer"],
+                orientation=current_orientations["stirrer"],
+                scale=np.array([0.1, 0.1, 0.03]),
+                size=1.0,
+                color=np.array([0.922, 0.769, 0.569])
             )
-            self.beaker = self.scene.add(
-                DynamicCuboid(
-                    prim_path="/World/beaker",
-                    name="beaker",
-                    position=np.array([0.4, 0.2, 0.06]), #
-                    orientation=np.array([1.0, 0.0, 0.0, 0.0]),
-                    scale=np.array([0.05, 0.05, 0.12]),
-                    size=1.0,
-                    color=np.array([0.0, 0.0, 1.0])
-                )
+        )
+        self.beaker = self.scene.add(
+            DynamicCuboid(
+                prim_path="/World/beaker",
+                name="beaker",
+                position=current_positions["beaker"],
+                orientation=current_orientations["beaker"],
+                scale=np.array([0.05, 0.05, 0.12]),
+                size=1.0,
+                color=np.array([0.0, 0.0, 1.0])
             )
-            self.flask = self.scene.add(
-                DynamicCuboid(
-                    prim_path="/World/flask",
-                    name="flask",
-                    position=np.array([0.0, 0.5, 0.04]), #
-                    orientation=np.array([1.0, 0.0, 0.0, 0.0]),
-                    scale=np.array([0.06, 0.06, 0.08]),
-                    size=1.0,
-                    color=np.array([0.0, 1.0, 0.0])
-                )
+        )
+        self.flask = self.scene.add(
+            DynamicCuboid(
+                prim_path="/World/flask",
+                name="flask",
+                position=current_positions["flask"],
+                orientation=current_orientations["flask"],
+                scale=np.array([0.06, 0.06, 0.08]),
+                size=1.0,
+                color=np.array([0.0, 1.0, 0.0])
             )
-            self.magnet = self.scene.add(
-                DynamicCuboid(
-                    prim_path="/World/magnet",
-                    name="magnet",
-                    position=np.array([-0.4, 0.3, 0.015]), #
-                    orientation=np.array([1.0, 0.0, 0.0, 0.0]),
-                    scale=np.array([0.045, 0.045, 0.03]),
-                    size=1.0,
-                    color=np.array([1.0, 0.0, 1.0])
-                )
+        )
+        self.magnet = self.scene.add(
+            DynamicCuboid(
+                prim_path="/World/magnet",
+                name="magnet",
+                position=current_positions["magnet"],
+                orientation=current_orientations["magnet"],
+                scale=np.array([0.045, 0.045, 0.03]),
+                size=1.0,
+                color=np.array([1.0, 0.0, 1.0])
             )
-        else:
-            self.table = self.scene.add(
-                FixedCuboid(
-                    prim_path="/World/table",
-                    name="table",
-                    position=np.array(current_positions["table"]),
-                    orientation=np.array(current_orientations["table"]),
-                    scale=np.array([1.5, 1.5, 0.02]),
-                    size=1.0,
-                    color=np.array([0.922, 0.769, 0.569])
-                )
-            )
-            self.stirrer = self.scene.add(
-                DynamicCuboid(
-                    prim_path="/World/stirrer",
-                    name="stirrer",
-                    position=np.array(current_positions["stirrer"]),
-                    orientation=np.array(current_orientations["stirrer"]),
-                    scale=np.array([0.1, 0.1, 0.03]),
-                    size=1.0,
-                    color=np.array([0.922, 0.769, 0.569])
-                )
-            )
-            self.beaker = self.scene.add(
-                DynamicCuboid(
-                    prim_path="/World/beaker",
-                    name="beaker",
-                    position=np.array(current_positions["beaker"]),
-                    orientation=np.array(current_orientations["beaker"]),
-                    scale=np.array([0.05, 0.05, 0.12]),
-                    size=1.0,
-                    color=np.array([0.0, 0.0, 1.0])
-                )
-            )
-            self.flask = self.scene.add(
-                DynamicCuboid(
-                    prim_path="/World/flask",
-                    name="flask",
-                    position=np.array(current_positions["flask"]),
-                    orientation=np.array(current_orientations["flask"]),
-                    scale=np.array([0.06, 0.06, 0.08]),
-                    size=1.0,
-                    color=np.array([0.0, 1.0, 0.0])
-                )
-            )
-            self.magnet = self.scene.add(
-                DynamicCuboid(
-                    prim_path="/World/magnet",
-                    name="magnet",
-                    position=np.array(current_positions["magnet"]),
-                    orientation=np.array(current_orientations["magnet"]),
-                    scale=np.array([0.045, 0.045, 0.03]),
-                    size=1.0,
-                    color=np.array([1.0, 0.0, 1.0])
-                )
-            )
+        )
 
         
 
