@@ -35,11 +35,9 @@ class Simulation(Node):
         from pxr import Gf
         from isaacsim.core.utils.types import ArticulationAction
 
-        # extensions.enable_extension("isaacsim.ros2.bridge")
         extensions.enable_extension("isaacsim.ros2.sim_control")
 
         # Save Imports
-        self.og = og
         self.prims = prims
         self.ArticulationAction = ArticulationAction
         self.World = World
