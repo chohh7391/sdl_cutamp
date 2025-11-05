@@ -26,6 +26,7 @@ This project utilizes cuTAMP within Isaac Sim to perform **S**elf-**D**riving **
     - build
         ```bash
         cd ~/IsaacSim-ros_workspaces
+
         ./build_ros.sh -d humble -v 22.04
         ```
 
@@ -117,7 +118,6 @@ ros2 launch isaacsim run_isaacsim.launch.py standalone:=$HOME/sdl_cutamp_ws/src/
 
 ## TAMP
 
-
 - Run TAMP Server
 
     ```bash
@@ -170,8 +170,6 @@ ros2 launch isaacsim run_isaacsim.launch.py standalone:=$HOME/sdl_cutamp_ws/src/
         ```bash
         (csuite) change_tool 2f_85
         ```
-
-
 
 
 
