@@ -23,7 +23,7 @@ This project utilizes cuTAMP within Isaac Sim to perform **S**elf-**D**riving **
 
     - Copy `tamp_interfaces` package and paste into `~/IsaacSim-ros_workspaces/humble_ws/src`
 
-    - build
+    - build python3.11 ros2 packages for IsaacSim
         ```bash
         cd ~/IsaacSim-ros_workspaces
 
