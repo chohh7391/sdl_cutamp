@@ -4,7 +4,7 @@ import sys
 
 import rclpy
 from rclpy.client import Client
-from tamp_interfaces.srv import Plan, Execute, SetTampEnv, ChangeTool
+from tamp_interfaces.srv import Plan, Execute, SetTampEnv, ToolChange
 
 
 class bcolors:
@@ -44,7 +44,7 @@ class ControlSuiteShell(cmd.Cmd):
         self.plan_client = self.node.create_client(Plan, 'tamp_plan')
         self.execute_client = self.node.create_client(Execute, 'plan_execute')
         self.set_tamp_env_client = self.node.create_client(SetTampEnv, 'set_tamp_env')
-        self.tool_change_client = self.node.create_client(ChangeTool, 'change_tool')
+        self.tool_change_client = self.node.create_client(ToolChange, 'tool_change')
 
         while (
             not self.plan_client.wait_for_service(timeout_sec=1.0) and 
@@ -114,9 +114,9 @@ class ControlSuiteShell(cmd.Cmd):
     def do_tool_change(self, arg):
 
         available_tools = ["ag95", "2f_85"]
-        assert arg.strip() not in available_tools, f"Error: Tool '{arg.strip()}' is not supported."
+        assert arg.strip() in available_tools, f"Error: Tool '{arg.strip()}' is not supported."
 
-        request = ChangeTool.Request()
+        request = ToolChange.Request()
         request.desired_tool = arg.strip()
 
         response = self._call_service_and_wait(self.tool_change_client, request)

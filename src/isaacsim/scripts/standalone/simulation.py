@@ -7,7 +7,7 @@ from isaacsim import SimulationApp
 from sensor_msgs.msg import JointState
 from std_msgs.msg import Bool
 from std_srvs.srv import SetBool
-from tamp_interfaces.srv import ChangeTool
+from tamp_interfaces.srv import ToolChange
 
 
 ROBOT_STAGE_PATH = "/World/Robot"
@@ -90,7 +90,7 @@ class Simulation(Node):
         self.arm_commands_sub = self.create_subscription(JointState, "isaac_arm_commands", self.arm_commands_cb, 10)
         self.gripper_commands_srv = self.create_service(SetBool, "isaac_gripper_commands", self.gripper_commands_cb)
 
-        self.tool_change_srv = self.create_service(ChangeTool, "tool_change", self.tool_change_cb)
+        self.tool_change_srv = self.create_service(ToolChange, "tool_change", self.tool_change_cb)
 
         self.get_logger().info("Simulation Start")
 
