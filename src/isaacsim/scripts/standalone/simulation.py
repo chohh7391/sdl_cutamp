@@ -150,7 +150,7 @@ class Simulation(Node):
 
     def gripper_commands_cb(self, request, response):
 
-        if self.robot is None or not self.robot.is_valid():
+        if self.robot is None or not self.robot.is_valid() or self.robot.gripper is None:
             self.get_logger().warning("gripper_commands_cb: Robot is not valid. Skipping command.")
             response.success = False
             response.message = "Robot is not valid (currently swapping?)"
@@ -160,9 +160,11 @@ class Simulation(Node):
 
         if is_close:
             self.robot.gripper.close()
+            self.get_logger().info(f"close: {self.robot.gripper.is_closed()}")
             response.message = "close gripper"
         else:
             self.robot.gripper.open()
+            self.get_logger().info(f"open: {self.robot.gripper.is_closed()}")
             response.message = "open gripper"
 
         response.success = True
@@ -220,8 +222,8 @@ class Simulation(Node):
             response.message = "Robot/Tool change complete and simulation resumed."
 
         except ValueError as e:
-            print(f"tool_change Service Error: {e}")
 
+            self.get_logger().info(f"tool_change Service Error: {e}")
             response.success = False
             response.message = "Robot/Tool change Failed"
 

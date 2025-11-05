@@ -129,8 +129,30 @@ class Task(ABC, BaseTask):
                 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, # Gripper joint position
             ])
 
+        elif desired_tool == "vgc10":
+            robot_asset_path = os.path.join(
+                os.path.abspath(__file__),
+                "..", "..", "..", "..",
+                "tamp/content/assets/robot/dcp_description/usd/fr5_vgc10/fr5_vgc10.usd"
+            )
+            robot_prim_path = find_unique_string_name(
+                initial_name=self._robot_prim_path, is_unique_fn=lambda x: not is_prim_path_valid(x)
+            )
+            robot_name = find_unique_string_name(
+                initial_name=self._robot_name, is_unique_fn=lambda x: not self.scene.object_exists(x)
+            )
+
+            self._robot = FR5(
+                prim_path=robot_prim_path,
+                name=robot_name,
+                usd_path=robot_asset_path,
+                end_effector_prim_name="wrist3_link",
+                is_surface_gripper=True,
+                surface_gripper_path=robot_prim_path + "/surface_gripper",
+            )
+
         else:
-            raise ValueError("Available Grippers are only 'ag95', '2f_85'")
+            raise ValueError("Available Grippers are only 'ag95', '2f_85', 'vgc10'")
 
 
         self.scene.add(self._robot)

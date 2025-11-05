@@ -21,6 +21,7 @@ from isaacsim.core.prims import SingleRigidPrim
 from isaacsim.core.utils.prims import get_prim_at_path
 from isaacsim.core.utils.stage import add_reference_to_stage, get_stage_units
 from isaacsim.robot.manipulators.grippers.parallel_gripper import ParallelGripper
+from isaacsim.robot.manipulators.grippers.surface_gripper import SurfaceGripper
 
 
 class FR5(Robot):
@@ -33,6 +34,9 @@ class FR5(Robot):
         position: Optional[np.ndarray] = None,
         orientation: Optional[np.ndarray] = None,
         end_effector_prim_name: Optional[str] = None,
+        attach_gripper: Optional[bool] = True,
+        is_surface_gripper: Optional[bool] = False,
+        surface_gripper_path: Optional[str] = None,
         gripper_dof_names: Optional[List[str]] = None,
         use_mimic_joints: bool = False,
         gripper_open_position: Optional[np.ndarray] = None,
@@ -43,6 +47,7 @@ class FR5(Robot):
         self._end_effector = None
         self._gripper = None
         self._end_effector_prim_name = end_effector_prim_name
+        self._is_surface_gripper = is_surface_gripper
 
         if not prim.IsValid():
             add_reference_to_stage(usd_path=usd_path, prim_path=prim_path)
@@ -52,17 +57,25 @@ class FR5(Robot):
         super().__init__(
             prim_path=prim_path, name=name, position=position, orientation=orientation, articulation_controller=None
         )
-        if gripper_dof_names is not None:
-            if deltas is None:
-                deltas = np.array([-0.4]) / get_stage_units()
-            self._gripper = ParallelGripper(
-                end_effector_prim_path=self._end_effector_prim_path,
-                joint_prim_names=gripper_dof_names,
-                use_mimic_joints=use_mimic_joints,
-                joint_opened_positions=gripper_open_position,
-                joint_closed_positions=gripper_closed_position,
-                action_deltas=deltas,
-            )
+        if attach_gripper:
+            if is_surface_gripper:
+                assert surface_gripper_path is not None
+                self._gripper = SurfaceGripper(
+                    end_effector_prim_path=self._end_effector_prim_path,
+                    surface_gripper_path=surface_gripper_path
+                )
+            else:
+                if gripper_dof_names is not None:
+                    if deltas is None:
+                        deltas = np.array([-0.4]) / get_stage_units()
+                    self._gripper = ParallelGripper(
+                        end_effector_prim_path=self._end_effector_prim_path,
+                        joint_prim_names=gripper_dof_names,
+                        use_mimic_joints=use_mimic_joints,
+                        joint_opened_positions=gripper_open_position,
+                        joint_closed_positions=gripper_closed_position,
+                        action_deltas=deltas,
+                    )
 
         self.joints_default_state = None
         return
@@ -72,20 +85,23 @@ class FR5(Robot):
         return self._end_effector
 
     @property
-    def gripper(self) -> ParallelGripper:
+    def gripper(self):
         return self._gripper
 
     def initialize(self, physics_sim_view=None) -> None:
         super().initialize(physics_sim_view)
         self._end_effector = SingleRigidPrim(prim_path=self._end_effector_prim_path, name=self.name + "_end_effector")
         self._end_effector.initialize(physics_sim_view)
-        self._gripper.initialize(
-            physics_sim_view=physics_sim_view,
-            articulation_apply_action_func=self.apply_action,
-            get_joint_positions_func=self.get_joint_positions,
-            set_joint_positions_func=self.set_joint_positions,
-            dof_names=self.dof_names,
-        )
+        if isinstance(self._gripper, ParallelGripper):
+            self._gripper.initialize(
+                physics_sim_view=physics_sim_view,
+                articulation_apply_action_func=self.apply_action,
+                get_joint_positions_func=self.get_joint_positions,
+                set_joint_positions_func=self.set_joint_positions,
+                dof_names=self.dof_names,
+            )
+        if isinstance(self._gripper, SurfaceGripper):
+            self._gripper.initialize(physics_sim_view=physics_sim_view, articulation_num_dofs=self.num_dof)
         return
 
     def post_reset(self) -> None:
@@ -93,13 +109,17 @@ class FR5(Robot):
             positions=self.joints_default_state
         )
         super().post_reset()
-        self._gripper.post_reset()
-        self._articulation_controller.switch_dof_control_mode(
-            dof_index=self.gripper.joint_dof_indicies[0], mode="position"
-        )
+        
+        if self._gripper != None:
+            self._gripper.post_reset()
+            if not self._is_surface_gripper:
+                self._articulation_controller.switch_dof_control_mode(
+                dof_index=self.gripper.joint_dof_indicies[0], mode="position"
+            )
+        
         return
     
     def pre_step(self, time_step_index: int, simulation_time: float) -> None:
-        self._gripper.update()
+        if self._gripper != None:
+            self._gripper.update()
         return
-

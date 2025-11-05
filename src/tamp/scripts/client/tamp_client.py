@@ -5,6 +5,7 @@ import sys
 import rclpy
 from rclpy.client import Client
 from tamp_interfaces.srv import Plan, Execute, SetTampEnv, ToolChange
+from std_srvs.srv import SetBool
 
 
 class bcolors:
@@ -45,12 +46,14 @@ class ControlSuiteShell(cmd.Cmd):
         self.execute_client = self.node.create_client(Execute, 'plan_execute')
         self.set_tamp_env_client = self.node.create_client(SetTampEnv, 'set_tamp_env')
         self.tool_change_client = self.node.create_client(ToolChange, 'tool_change')
+        self.gripper_commands_client = self.node.create_client(SetBool, "isaac_gripper_commands")
 
         while (
             not self.plan_client.wait_for_service(timeout_sec=1.0) and 
             not self.execute_client.wait_for_service(timeout_sec=1.0) and
             not self.set_tamp_env_client.wait_for_service(timeout_sec=1.0) and 
-            not self.tool_change_client.wait_for_service(timeout_sec=1.0)
+            not self.tool_change_client.wait_for_service(timeout_sec=1.0) and 
+            not self.gripper_commands_client.wait_for_service(timeout_sec=1.0)
         ):
             self.get_logger().info('service not available, waiting again...')
 
@@ -113,7 +116,7 @@ class ControlSuiteShell(cmd.Cmd):
     
     def do_tool_change(self, arg):
 
-        available_tools = ["ag95", "2f_85"]
+        available_tools = ["ag95", "2f_85", "vgc10"]
         assert arg.strip() in available_tools, f"Error: Tool '{arg.strip()}' is not supported."
 
         request = ToolChange.Request()
@@ -125,6 +128,23 @@ class ControlSuiteShell(cmd.Cmd):
         else:
             self.node.get_logger().warn("Service call failed")
 
+    
+    def do_grasp(self, arg):
+
+        request = SetBool.Request()
+
+        if arg.strip().lower() == "close":
+            request.data = True
+        elif arg.strip().lower() == "open":
+            request.data = False
+        else:
+            raise ValueError("arg is must be 'close' or 'open'")
+        
+        response = self._call_service_and_wait(self.gripper_commands_client, request)
+        if response:
+            self.node.get_logger().info(f"Service call successful, result: {response.success}")
+        else:
+            self.node.get_logger().warn("Service call failed")
 
 
     ##############################################################################
