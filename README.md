@@ -9,9 +9,9 @@
 This project utilizes cuTAMP within Isaac Sim to perform **S**elf-**D**riving **L**aboratories
 
 
-## Installation
+# Installation
 
-### Requirements
+## Requirements
 
 - Set up IsaacSim ROS2 Environment
   - install [Isaac Sim ROS Workspace](https://github.com/isaac-sim/IsaacSim-ros_workspaces)
@@ -30,7 +30,7 @@ This project utilizes cuTAMP within Isaac Sim to perform **S**elf-**D**riving **
         ./build_ros.sh -d humble -v 22.04
         ```
 
-### Setup Workspace
+## Setup Workspace
 
 ```bash
 sudo apt-get install build-essential
