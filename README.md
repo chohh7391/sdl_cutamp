@@ -119,12 +119,14 @@ ros2 launch isaacsim run_isaacsim.launch.py standalone:=$HOME/sdl_cutamp_ws/src/
 ## TAMP
 
 - Run TAMP Server
-
     ```bash
     source /opt/ros/humble/setup.bash
     source ~/sdl_cutamp_ws/install/local_setup.bash
     conda activate cutamp
     export SYSTEM_LIBSTDCXX_PATH="/usr/lib/x86_64-linux-gnu/libstdc++.so.6"
+    ```
+
+    ```bash
     LD_PRELOAD="${SYSTEM_LIBSTDCXX_PATH}" ros2 run tamp tamp_server.py
     ```
 
@@ -135,6 +137,9 @@ ros2 launch isaacsim run_isaacsim.launch.py standalone:=$HOME/sdl_cutamp_ws/src/
     ```bash
     source /opt/ros/humble/setup.bash
     source ~/sdl_cutamp_ws/install/local_setup.bash
+    ```
+
+    ```bash
     ros2 run tamp tamp_client.py
     ```    
     
@@ -160,7 +165,7 @@ ros2 launch isaacsim run_isaacsim.launch.py standalone:=$HOME/sdl_cutamp_ws/src/
     (csuite) execute
     ```
 
-    - change tool
+    - tool change
       - ag95
         ```bash
         (csuite) change_tool ag95

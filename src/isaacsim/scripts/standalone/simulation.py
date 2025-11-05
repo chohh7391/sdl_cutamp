@@ -175,7 +175,6 @@ class Simulation(Node):
         desired_tool = request.desired_tool
         
         try:
-
             observations = self.world.get_observations()
             self.task.current_positions = observations["current_positions"]
             self.task.current_orientations = observations["current_orientations"]
@@ -187,7 +186,7 @@ class Simulation(Node):
                 self._saved_robot_joint_positions = self.robot.get_joint_positions(joint_indices=self.arm_joint_ids)
             
             self.timer.cancel()
-            self.world.stop() 
+            self.world.stop()
 
             self.world.clear()
 
@@ -228,7 +227,7 @@ class Simulation(Node):
 
 
         return response
-    
+
 
 
 def main(args=None):

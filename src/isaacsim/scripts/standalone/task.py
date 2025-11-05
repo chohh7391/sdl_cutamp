@@ -105,7 +105,6 @@ class Task(ABC, BaseTask):
                 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, # Gripper joint position
             ])
             
-
         elif desired_tool == "2f_85":
             robot_asset_path = os.path.join(os.path.abspath(__file__), "..", "..", "..", "..", "tamp/content/assets/robot/dcp_description/usd/fr5_2f_85/fr5_2f_85.usd")
             robot_prim_path = find_unique_string_name(
