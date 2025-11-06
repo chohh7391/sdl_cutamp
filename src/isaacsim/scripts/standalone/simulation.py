@@ -160,11 +160,9 @@ class Simulation(Node):
 
         if is_close:
             self.robot.gripper.close()
-            self.get_logger().info(f"close: {self.robot.gripper.is_closed()}")
             response.message = "close gripper"
         else:
             self.robot.gripper.open()
-            self.get_logger().info(f"open: {self.robot.gripper.is_closed()}")
             response.message = "open gripper"
 
         response.success = True

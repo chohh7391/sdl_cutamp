@@ -146,9 +146,9 @@ class Task(ABC, BaseTask):
                 prim_path=robot_prim_path,
                 name=robot_name,
                 usd_path=robot_asset_path,
-                end_effector_prim_name="wrist3_link",
+                end_effector_prim_name="suction",
                 is_surface_gripper=True,
-                surface_gripper_path=robot_prim_path + "/surface_gripper",
+                surface_gripper_path=robot_prim_path + "/SurfaceGripper",
             )
 
         else:
