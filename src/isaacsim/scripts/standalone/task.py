@@ -151,8 +151,36 @@ class Task(ABC, BaseTask):
                 surface_gripper_path=robot_prim_path + "/SurfaceGripper",
             )
 
+            self._robot.joints_default_state = np.array([
+                0.0, -1.05, -2.18, -1.57, 1.57, 0.0, # Arm joint position
+            ])
+
+        elif desired_tool == "empty":
+
+            robot_asset_path = os.path.join(
+                os.path.abspath(__file__),
+                "..", "..", "..", "..",
+                "tamp/content/assets/robot/dcp_description/usd/fr5/fr5.usd"
+            )
+            robot_prim_path = find_unique_string_name(
+                initial_name=self._robot_prim_path, is_unique_fn=lambda x: not is_prim_path_valid(x)
+            )
+            robot_name = find_unique_string_name(
+                initial_name=self._robot_name, is_unique_fn=lambda x: not self.scene.object_exists(x)
+            )
+
+            self._robot = FR5(
+                prim_path=robot_prim_path,
+                name=robot_name,
+                usd_path=robot_asset_path,
+                end_effector_prim_name="wrist3_link",
+            )
+            self._robot.joints_default_state = np.array([
+                0.0, -1.05, -2.18, -1.57, 1.57, 0.0, # Arm joint position
+            ])
+
         else:
-            raise ValueError("Available Grippers are only 'ag95', '2f_85', 'vgc10'")
+            raise ValueError("Available Grippers are only 'ag95', '2f_85', 'vgc10', 'empty'")
 
 
         self.scene.add(self._robot)

@@ -116,7 +116,7 @@ class ControlSuiteShell(cmd.Cmd):
     
     def do_tool_change(self, arg):
 
-        available_tools = ["ag95", "2f_85", "vgc10"]
+        available_tools = ["ag95", "2f_85", "vgc10", "empty"]
         assert arg.strip() in available_tools, f"Error: Tool '{arg.strip()}' is not supported."
 
         request = ToolChange.Request()
