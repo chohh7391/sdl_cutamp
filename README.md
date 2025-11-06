@@ -168,22 +168,22 @@ ros2 launch isaacsim run_isaacsim.launch.py standalone:=$HOME/sdl_cutamp_ws/src/
     - tool change
       - ag95
         ```bash
-        (csuite) change_tool ag95
+        (csuite) tool_change ag95
         ```
 
       - 2f_85
         ```bash
-        (csuite) change_tool 2f_85
+        (csuite) tool_change 2f_85
         ```
     
       - vgc10
         ```bash
-        (csuite) change_tool vgc10
+        (csuite) tool_change vgc10
         ```
 
       - empty
         ```bash
-        (csuite) change_tool empty
+        (csuite) tool_change empty
         ```
 
 
