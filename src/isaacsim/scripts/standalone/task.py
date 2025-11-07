@@ -6,7 +6,7 @@ import omni
 from isaacsim.core.api.objects import FixedCuboid
 from isaacsim.core.api.scenes.scene import Scene
 from isaacsim.core.api.tasks import BaseTask
-from isaacsim.core.prims import SingleXFormPrim, SingleRigidPrim
+from isaacsim.core.prims import SingleXFormPrim
 from isaacsim.core.utils.prims import is_prim_path_valid
 from isaacsim.core.utils.stage import get_stage_units, add_reference_to_stage
 from isaacsim.core.utils.string import find_unique_string_name
@@ -29,6 +29,7 @@ from isaacsim.core.api.objects import DynamicCuboid
 from fr5 import FR5
 import os
 
+
 class Task(ABC, BaseTask):
 
     def __init__(self, name: str, robot_prim_path: str, robot_name: str) -> None:
@@ -43,6 +44,7 @@ class Task(ABC, BaseTask):
         self.current_positions = None
         self.current_orientations = None
         self.desired_tool = None
+        self.current_tool = None
 
         self.default_positions = {
             "table": np.array([0.0, 0.0, -0.01]),
@@ -182,7 +184,8 @@ class Task(ABC, BaseTask):
         else:
             raise ValueError("Available Grippers are only 'ag95', '2f_85', 'vgc10', 'empty'")
 
-
+        self.current_tool = desired_tool
+        
         self.scene.add(self._robot)
 
         return self._robot
@@ -194,6 +197,7 @@ class Task(ABC, BaseTask):
             current_orientations = self.default_orientations
 
 
+        # Objects
         self.table = self.scene.add(
             FixedCuboid(
                 prim_path="/World/table",
@@ -249,6 +253,71 @@ class Task(ABC, BaseTask):
                 color=np.array([1.0, 0.0, 1.0])
             )
         )
+
+        # gripper_visual_asset_path = os.path.join(
+        #     os.path.abspath(__file__),
+        #     "..", "..", "..", "..",
+        #     "tamp/content/assets/robot/dcp_description/usd/gripper_visual"
+        # )
+
+        add_reference_to_stage(
+            usd_path="/home/home/sdl_cutamp_ws/src/tamp/content/assets/robot/dcp_description/usd/gripper_visual/2f_85.usd",
+            prim_path="/World/visual_gripper/gripper_2f_85"
+        )
+        self.gripper_2f_85 = SingleXFormPrim(
+            prim_path="/World/visual_gripper/gripper_2f_85",
+            name="gripper_2f_85"
+        )
+        self.gripper_2f_85.set_world_pose(
+            position=[0.6, 0.0, 0.2],
+            orientation=[0, 0, 1, 0],
+        )
+
+        add_reference_to_stage(
+            usd_path="/home/home/sdl_cutamp_ws/src/tamp/content/assets/robot/dcp_description/usd/gripper_visual/ag95/ag95.usd",
+            prim_path="/World/gripper_visual/gripper_ag95"
+        )
+        self.gripper_ag95 = SingleXFormPrim(
+            prim_path="/World/gripper_visual/gripper_ag95",
+            name="gripper_ag95"
+        )
+        self.gripper_ag95.set_world_pose(
+            position=[0.6, 0.2, 0.2],
+            orientation=[0, 0, 1, 0],
+        )
+
+        add_reference_to_stage(
+            usd_path="/home/home/sdl_cutamp_ws/src/tamp/content/assets/robot/dcp_description/usd/gripper_visual/vgc10/vgc10.usd",
+            prim_path="/World/gripper_visual/gripper_vgc10"
+        )
+        self.gripper_vgc10 = SingleXFormPrim(
+            prim_path="/World/gripper_visual/gripper_vgc10",
+            name="gripper_vgc10"
+        )
+        self.gripper_vgc10.set_world_pose(
+            position=[0.6, 0.4, 0.2],
+            orientation=[0, 0, 1, 0],
+        )
+
+        
+
+
+
+
+
+        # # Grippers (No collision)
+        # add_reference_to_stage(
+        #     usd_path=os.path.join(gripper_visual_asset_path, "2f_85", "2f_85.usd"),
+        #     prim_path="/World/gripper_visual/2f_85",
+        #     prim_type="Xform"
+        # )
+
+        # prims = SingleXFormPrim("/World/gripper_visual/2f_85", name="2f_85")
+        # prims.set_world_pose(
+        #     position=[1.0, 0.0, 0.2],
+        #     orientation=[1.0, 0.0, 0.0, 0.0]
+        # )
+        
 
         
 
