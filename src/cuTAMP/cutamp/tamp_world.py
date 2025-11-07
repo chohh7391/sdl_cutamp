@@ -24,6 +24,9 @@ from cutamp.robots import RobotContainer, load_robot_container
 from cutamp.robots.franka import franka_curobo_cfg, get_franka_ik_solver
 from cutamp.robots.ur5 import ur5_curobo_cfg, get_ur5_ik_solver
 from cutamp.robots.fr5 import fr5_curobo_cfg, get_fr5_ik_solver
+from cutamp.robots.fr5_ag95 import fr5_ag95_curobo_cfg, get_fr5_ag95_ik_solver
+# from cutamp.robots.fr5_2f_85 import fr5_2f_85_curobo_cfg, get_fr5_2f_85_ik_solver
+# from cutamp.robots.fr5_vgc10 import fr5_vgc10_curobo_cfg, get_fr5_vgc10_ik_solver
 from cutamp.tamp_domain import get_initial_state
 from cutamp.task_planning import State
 from cutamp.utils.collision import get_world_collision_cost
@@ -44,7 +47,7 @@ class TAMPWorld:
         self,
         env: TAMPEnvironment,
         tensor_args: TensorDeviceType,
-        robot: Union[Literal["panda", "ur5", "fr5"], RobotContainer],
+        robot: Union[Literal["panda", "ur5", "fr5", "fr5_ag95"], RobotContainer],
         q_init: Float[torch.Tensor, "dof"],
         collision_activation_distance: float = 0.0,
         coll_n_spheres: int = 50,
@@ -78,6 +81,8 @@ class TAMPWorld:
             self.ik_solver = get_ur5_ik_solver(self.world_cfg)
         elif self.robot_name == "fr5":
             self.ik_solver = get_fr5_ik_solver(self.world_cfg)
+        elif self.robot_name == "fr5_ag95":
+            self.ik_solver = get_fr5_ag95_ik_solver(self.world_cfg)
         else:
             raise ValueError(f"Unsupported robot: {self.robot_name}")
 
@@ -193,6 +198,8 @@ class TAMPWorld:
             robot_cfg = ur5_curobo_cfg()
         elif self.robot_name == "fr5":
             robot_cfg = fr5_curobo_cfg()
+        elif self.robot_name == "fr5_ag95":
+            robot_cfg = fr5_ag95_curobo_cfg()
         else:
             raise ValueError(f"Unsupported robot: {self.robot_name}")
 

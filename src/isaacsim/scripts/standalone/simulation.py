@@ -239,50 +239,26 @@ class Simulation(Node):
 
         return response
     
+    
     def get_tool_info_cb(self, request, response):
         
         current_tool = request.current_tool
         desired_tool = request.desired_tool
+        assert current_tool in {'empty', 'ag95', '2f_85', 'vgc10'}
+        assert desired_tool in {'ag95', '2f_85', 'vgc10'}
 
-        if current_tool == "empty":
-            response.current_tool_position = [0.0, 0.0, 0.0]
-            response.current_tool_orientation = [1.0, 0.0, 0.0, 0.0]
-        elif current_tool == "2f_85":
-            position, orientation = self.task.gripper_2f_85.get_world_pose()
-            response.current_tool_position = position.tolist()
-            response.current_tool_orientation = orientation.tolist()
-        elif current_tool == "ag95":
-            position, orientation = self.task.gripper_ag95.get_world_pose()
-            response.current_tool_position = position.tolist()
-            response.current_tool_orientation = orientation.tolist()
-        elif current_tool == "vgc10":
-            position, orientation = self.task.gripper_vgc10.get_world_pose()
-            response.current_tool_position = position.tolist()
-            response.current_tool_orientation = orientation.tolist()
-        else:
-            raise ValueError("available tools are 'empty', 'ag95', '2f_85', 'vgc10'")
-        
-        if desired_tool == "2f_85":
-            position, orientation = self.task.gripper_2f_85.get_world_pose()
-            response.desired_tool_position = position.tolist()
-            response.desired_tool_orientation = orientation.tolist()
-        elif desired_tool == "ag95":
-            position, orientation = self.task.gripper_ag95.get_world_pose()
-            response.desired_tool_position = position.tolist()
-            response.desired_tool_orientation = orientation.tolist()
-        elif desired_tool == "vgc10":
-            position, orientation = self.task.gripper_vgc10.get_world_pose()
-            response.desired_tool_position = position.tolist()
-            response.desired_tool_orientation = orientation.tolist()
-        else:
-            raise ValueError("available tools are 'ag95', '2f_85', 'vgc10'")
-        
-        self.get_logger().info(f"current_tool_position: {response.current_tool_position}")
-        self.get_logger().info(f"current_tool_orientation: {response.current_tool_orientation}")
-        self.get_logger().info(f"desired_tool_position: {response.desired_tool_position}")
-        self.get_logger().info(f"desired_tool_orientation: {response.desired_tool_orientation}")
+        observation = self.world.get_observations()
+        gripper_base_position = observation["gripper_base_position"]
+        gripper_base_orientation = observation["gripper_base_orientation"]
 
-        
+        # current tool pose
+        response.current_tool_position = gripper_base_position[current_tool]
+        response.current_tool_orientation = gripper_base_orientation[current_tool]
+
+        # desired tool pose
+        response.desired_tool_position = gripper_base_position[desired_tool]
+        response.desired_tool_orientation = gripper_base_orientation[desired_tool]
+
         return response
 
 

@@ -200,7 +200,7 @@ class ControlSuiteShell(cmd.Cmd):
             tool_change_request.desired_tool = desired_tool
 
             tool_change_response = self._call_service_and_wait(self.tool_change_client, tool_change_request)
-            # self.do_set_tamp_cfg(arg=desired_tool) # Change Robot Cfg
+            self.do_set_tamp_cfg(arg=desired_tool) # Change Robot Cfg
         else:
             # move to current tool pose
             move_to_target_request = MoveToTarget.Request()
@@ -218,7 +218,7 @@ class ControlSuiteShell(cmd.Cmd):
             tool_change_request.desired_tool = "empty"
 
             tool_change_response = self._call_service_and_wait(self.tool_change_client, tool_change_request)
-            # self.do_set_tamp_cfg(arg="empty") # Change Robot Cfg
+            self.do_set_tamp_cfg(arg="empty") # Change Robot Cfg
 
             # move to desired_tool pose
             get_robot_info_request = GetRobotInfo.Request()
@@ -240,7 +240,7 @@ class ControlSuiteShell(cmd.Cmd):
             tool_change_request.desired_tool = desired_tool
 
             tool_change_response = self._call_service_and_wait(self.tool_change_client, tool_change_request)
-            # self.do_set_tamp_cfg(arg=desired_tool) # Change Robot Cfg
+            self.do_set_tamp_cfg(arg=desired_tool) # Change Robot Cfg
 
 
         if move_to_target_response and tool_change_response:

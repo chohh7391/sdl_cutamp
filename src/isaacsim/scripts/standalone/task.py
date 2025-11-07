@@ -312,15 +312,37 @@ class Task(ABC, BaseTask):
             orientation=[0, 0, 1, 0],
         )
 
+        # gripper_base_link xform
+        self.gripper_base_2f_85 = SingleXFormPrim(
+            prim_path="/World/gripper_visual/gripper_2f_85/base_link",
+            name="gripper_base_2f_85"
+        )
+        self.gripper_base_ag95 = SingleXFormPrim(
+            prim_path="/World/gripper_visual/gripper_ag95/gripper_base_link",
+            name="gripper_base_ag95"
+        )
+        self.gripper_base_vgc10 = SingleXFormPrim(
+            prim_path="/World/gripper_visual/gripper_vgc10/onrobot_vgc10_base_link",
+            name="gripper_base_vgc10"
+        )
+
+
 
     def get_observations(self) -> Dict:
         
+        # object pose
         table_pos, table_ori = self.table.get_world_pose()
         stirrer_pos, stirrer_ori = self.stirrer.get_world_pose()
         beaker_pos, beaker_ori = self.beaker.get_world_pose()
         flask_pos, flask_ori = self.flask.get_world_pose()
         magnet_pos, magnet_ori = self.magnet.get_world_pose()
+
+        # gripper base pose
+        gripper_base_2f_85_pos, gripper_base_2f_85_ori = self.gripper_base_2f_85.get_world_pose()
+        gripper_base_ag95_pos, gripper_base_ag95_ori = self.gripper_base_ag95.get_world_pose()
+        gripper_base_vgc10_pos, gripper_base_vgc10_ori = self.gripper_base_vgc10.get_world_pose()
         
+        # observation dict
         observations = {
             "current_positions": {
                 "table": table_pos,
@@ -335,7 +357,19 @@ class Task(ABC, BaseTask):
                 "beaker": beaker_ori,
                 "flask": flask_ori,
                 "magnet": magnet_ori,
-            }
+            },
+            "gripper_base_position": {
+                "empty": [0.0, 0.0, 0.0],
+                "2f_85": gripper_base_2f_85_pos.tolist(),
+                "ag95": gripper_base_ag95_pos.tolist(),
+                "vgc10": gripper_base_vgc10_pos.tolist(),
+            },
+            "gripper_base_orientation": {
+                "empty": [1.0, 0.0, 0.0, 0.0],
+                "2f_85": gripper_base_2f_85_ori.tolist(),
+                "ag95": gripper_base_ag95_ori.tolist(),
+                "vgc10": gripper_base_vgc10_ori.tolist(),
+            },
         }
 
         return observations
