@@ -220,7 +220,7 @@ class Task(ABC, BaseTask):
             )
         )
         self.stirrer = self.scene.add(
-            DynamicCuboid(
+            FixedCuboid(
                 prim_path="/World/stirrer",
                 name="stirrer",
                 position=current_positions["stirrer"],
