@@ -7,7 +7,7 @@ from trajectory_msgs.msg import JointTrajectoryPoint
 from rclpy.duration import Duration as RclpyDuration # 이름 충돌을 피하기 위해 별칭 사용
 
 from tamp_interfaces.msg import PlanStep
-from tamp_interfaces.srv import Plan, Execute, SetTampEnv, MoveToTarget
+from tamp_interfaces.srv import Plan, Execute, SetTampEnv, MoveToTarget, SetTampCfg
 from builtin_interfaces.msg import Duration
 from simulation_interfaces.srv import GetEntityState
 from std_srvs.srv import SetBool
@@ -215,11 +215,15 @@ class TAMPServer(Node):
             SetTampEnv, 'set_tamp_env', self.set_tamp_env_cb, 
             callback_group=self.reentrant_group
         )
+        self.set_tamp_cfg_srv = self.create_service(
+            SetTampCfg, 'set_tamp_cfg', self.set_tamp_cfg_cb,
+            callback_group=self.reentrant_group
+        )
         self.move_to_target_srv = self.create_service(
             MoveToTarget, 'move_to_target', self.move_to_target_cb,
             callback_group=self.reentrant_group
         )
-
+        
         # clients
         self.get_entity_state_cli = self.create_client(
             GetEntityState, 'get_entity_state',
@@ -279,7 +283,51 @@ class TAMPServer(Node):
         )
 
         return response
+    
+    def set_tamp_cfg_cb(self, request, response):
 
+        if request.num_particles == 0:
+            request.num_particles = 1024
+        if request.robot == "":
+            request.robot = "fr5"
+        if request.grasp_dof == 0:
+            request.grasp_dof = 6
+        if request.approach == "":
+            request.approach = "optimization"
+        if request.num_resampling_attempts == 0:
+            request.num_resampling_attempts = 100
+        if request.num_opt_steps == 0:
+            request.num_opt_steps = 1000
+        if request.num_initial_plans == 0:
+            request.num_initial_plans = 1
+        if request.opt_viz_interval == 0:
+            request.opt_viz_interval = 10
+
+        config = TAMPConfiguration(
+            num_particles=request.num_particles,
+            robot=request.robot,
+            grasp_dof=request.grasp_dof,
+            approach=request.approach,
+            num_resampling_attempts=request.num_resampling_attempts,
+            num_opt_steps=request.num_opt_steps,
+            max_loop_dur=None,
+            optimize_soft_costs=request.optimize_soft_costs,
+            soft_cost=None,
+            num_initial_plans=request.num_initial_plans, # Changed from 1 to 30
+            cache_subgraphs=None,
+            curobo_plan=request.curobo_plan,
+            enable_visualizer=request.enable_visualizer,
+            opt_viz_interval=request.opt_viz_interval,
+            viz_robot_mesh=request.viz_robot_mesh,
+            enable_experiment_logging=request.enable_experiment_logging,
+        )
+        validate_tamp_config(config)
+
+        self.tamp.update_config(config=config)
+
+        response.success = True
+
+        return response
 
     def joint_states_cb(self, msg):
         self.joint_states = msg
@@ -491,6 +539,7 @@ class TAMPServer(Node):
         self.arm_commands_publisher.publish(self.arm_commands)
 
         self.current_plan_step += 1
+        
 
 if __name__ == "__main__":
 

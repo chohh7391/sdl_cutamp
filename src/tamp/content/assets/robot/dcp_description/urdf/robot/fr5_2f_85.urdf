@@ -485,7 +485,7 @@
     </inertial>
   </link>
   <joint name="grasp_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0 0 0.15"/>
+    <origin rpy="0 0 0" xyz="0 0 0.1"/>
     <axis xyz="0 0 1"/>
     <parent link="gripper_frame"/>
     <child link="grasp_frame"/>

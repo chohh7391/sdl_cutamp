@@ -4,7 +4,9 @@ import sys
 
 import rclpy
 from rclpy.client import Client
-from tamp_interfaces.srv import Plan, Execute, SetTampEnv, ToolChange, MoveToTarget, GetRobotInfo, GetToolInfo
+from tamp_interfaces.srv import (
+    Plan, Execute, SetTampEnv, SetTampCfg, ToolChange, MoveToTarget, GetRobotInfo, GetToolInfo
+)
 from std_srvs.srv import SetBool
 from std_msgs.msg import String
 from sensor_msgs.msg import JointState
@@ -48,6 +50,7 @@ class ControlSuiteShell(cmd.Cmd):
         self.plan_client = self.node.create_client(Plan, 'tamp_plan')
         self.execute_client = self.node.create_client(Execute, 'plan_execute')
         self.set_tamp_env_client = self.node.create_client(SetTampEnv, 'set_tamp_env')
+        self.set_tamp_cfg_client = self.node.create_client(SetTampCfg, "set_tamp_cfg")
         self.tool_change_client = self.node.create_client(ToolChange, 'tool_change')
         self.gripper_commands_client = self.node.create_client(SetBool, "isaac_gripper_commands")
         self.move_to_target_client = self.node.create_client(MoveToTarget, "move_to_target")
@@ -57,7 +60,8 @@ class ControlSuiteShell(cmd.Cmd):
         while (
             not self.plan_client.wait_for_service(timeout_sec=1.0) and 
             not self.execute_client.wait_for_service(timeout_sec=1.0) and
-            not self.set_tamp_env_client.wait_for_service(timeout_sec=1.0) and 
+            not self.set_tamp_env_client.wait_for_service(timeout_sec=1.0) and
+            not self.set_tamp_cfg_client.wait_for_service(timeout_sec=1.0) and 
             not self.tool_change_client.wait_for_service(timeout_sec=1.0) and 
             not self.gripper_commands_client.wait_for_service(timeout_sec=1.0) and
             not self.get_robot_info_client.wait_for_service(timeout_sec=1.0) and 
@@ -121,6 +125,35 @@ class ControlSuiteShell(cmd.Cmd):
         else:
             self.node.get_logger().warn("Service call failed")
 
+    def do_set_tamp_cfg(self, arg):
+
+        request = SetTampCfg.Request()
+
+        desired_tool = arg.strip().lower()
+        assert desired_tool in {"empty", "2f_85", "ag95", "vgc10"}
+
+        request.curobo_plan = True
+        request.enable_visualizer = False
+        request.viz_robot_mesh = False
+        request.enable_experiment_logging = False
+
+        if arg.strip() == "empty":
+            request.robot = "fr5"
+        elif arg.strip() == "2f_85":
+            request.robot = "fr5_2f_85"
+        elif arg.strip() == "ag95":
+            request.robot = "fr5_ag95"
+        elif arg.strip() == "vgc10":
+            request.robot = "fr5_vgc10"
+
+        response = self._call_service_and_wait(self.set_tamp_cfg_client, request)
+        if response:
+            self.node.get_logger().info(f"Service call successful, result: {response.success}")
+        else:
+            self.node.get_logger().warn("Service call failed")
+
+        
+
     
     def do_tool_change(self, arg):
 
@@ -167,6 +200,7 @@ class ControlSuiteShell(cmd.Cmd):
             tool_change_request.desired_tool = desired_tool
 
             tool_change_response = self._call_service_and_wait(self.tool_change_client, tool_change_request)
+            # self.do_set_tamp_cfg(arg=desired_tool) # Change Robot Cfg
         else:
             # move to current tool pose
             move_to_target_request = MoveToTarget.Request()
@@ -184,6 +218,7 @@ class ControlSuiteShell(cmd.Cmd):
             tool_change_request.desired_tool = "empty"
 
             tool_change_response = self._call_service_and_wait(self.tool_change_client, tool_change_request)
+            # self.do_set_tamp_cfg(arg="empty") # Change Robot Cfg
 
             # move to desired_tool pose
             get_robot_info_request = GetRobotInfo.Request()
@@ -205,6 +240,8 @@ class ControlSuiteShell(cmd.Cmd):
             tool_change_request.desired_tool = desired_tool
 
             tool_change_response = self._call_service_and_wait(self.tool_change_client, tool_change_request)
+            # self.do_set_tamp_cfg(arg=desired_tool) # Change Robot Cfg
+
 
         if move_to_target_response and tool_change_response:
             self.node.get_logger().info(f"Service call successful, result: {move_to_target_response.success}")

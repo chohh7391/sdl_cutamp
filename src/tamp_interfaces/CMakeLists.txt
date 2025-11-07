@@ -26,6 +26,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "srv/Plan.srv"
   "srv/Execute.srv"
   "srv/SetTampEnv.srv"
+  "srv/SetTampCfg.srv"
   "srv/ToolChange.srv"
   "srv/MoveToTarget.srv"
   "srv/GetRobotInfo.srv"
