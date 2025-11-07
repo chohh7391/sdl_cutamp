@@ -1,0 +1,7 @@
+# Request
+float64[] q_init
+float64[] target_position
+float64[] target_orientation
+---
+# Response
+bool success

@@ -7,7 +7,7 @@ from trajectory_msgs.msg import JointTrajectoryPoint
 from rclpy.duration import Duration as RclpyDuration # 이름 충돌을 피하기 위해 별칭 사용
 
 from tamp_interfaces.msg import PlanStep
-from tamp_interfaces.srv import Plan, Execute, SetTampEnv
+from tamp_interfaces.srv import Plan, Execute, SetTampEnv, MoveToTarget
 from builtin_interfaces.msg import Duration
 from simulation_interfaces.srv import GetEntityState
 from std_srvs.srv import SetBool
@@ -19,7 +19,7 @@ from rclpy.callback_groups import ReentrantCallbackGroup
 from typing import Optional, List, Dict
 import copy
 
-from cutamp.algorithm import run_cutamp
+from cutamp.algorithm import run_cutamp, setup_cutamp
 from cutamp.config import TAMPConfiguration, validate_tamp_config
 from cutamp.constraint_checker import ConstraintChecker
 from cutamp.scripts.utils import (
@@ -33,6 +33,12 @@ import logging
 from cutamp.cost_reduction import CostReducer
 
 from envs.utils import TAMPEnvManager
+from curobo.wrap.reacher.motion_gen import MotionGenPlanConfig
+import numpy as np
+
+from curobo.types.state import JointState as CuroboJointState
+from curobo.types.math import Pose as CuroboPose
+from curobo.types.base import TensorDeviceType
 
 
 class TAMP:
@@ -64,6 +70,8 @@ class TAMP:
         self.total_num_satisfying = None
 
         self.max_attempts = 3
+
+        self.cmd_js_names = ["j1", "j2", "j3", "j4", "j5", "j6"]
 
 
     def update_config(self, config: TAMPConfiguration):
@@ -117,6 +125,50 @@ class TAMP:
             raise ValueError("update_env is needed before plan")
 
         return self.curobo_plan, self.total_num_satisfying
+    
+
+    def motion_plan(
+        self,
+        q_init: List,
+        ee_translation_goal: np.array,
+        ee_orientation_goal: np.array,
+    ):
+        tensor_args = TensorDeviceType()
+
+        _, _, timer, world = setup_cutamp(self.env, self.config, q_init)
+        motion_gen = world.get_motion_gen(collision_activation_distance=self.config.world_activation_distance)
+        if config.warmup_motion_gen:
+            with timer.time("curobo_motion_gen_warmup"):
+                motion_gen.warmup()
+
+        plan_config = MotionGenPlanConfig(
+            timeout=0.5, enable_finetune_trajopt=False, time_dilation_factor=config.time_dilation_factor
+        )
+
+        cu_js = CuroboJointState(
+            position=tensor_args.to_device(q_init),
+            velocity=tensor_args.to_device(q_init) * 0.0,
+            acceleration=tensor_args.to_device(q_init) * 0.0,
+            jerk=tensor_args.to_device(q_init) * 0.0,
+            joint_names=self.cmd_js_names,
+        )
+        ik_goal = CuroboPose(
+            position=tensor_args.to_device(ee_translation_goal),
+            quaternion=tensor_args.to_device(ee_orientation_goal),
+        )
+
+        result = motion_gen.plan_single(cu_js.unsqueeze(0), ik_goal, plan_config)
+        succ = result.success.item()
+        if succ:
+            cmd_plan = result.get_interpolated_plan().get_ordered_joint_state(self.cmd_js_names)
+        else:
+            return None
+        
+        return cmd_plan
+
+
+        
+
 
 
 
@@ -135,7 +187,8 @@ class TAMPServer(Node):
         self.plan_to_execute = None
         self.plan_index = 0
         self.current_plan_step = 0
-        self.execution_timer = None
+        self.execute_plan_timer = None
+        self.move_to_target_timer = None
 
         # duration between plan_steps 
         self.is_waiting_after_step = False
@@ -160,6 +213,10 @@ class TAMPServer(Node):
         )
         self.set_tamp_env_srv = self.create_service(
             SetTampEnv, 'set_tamp_env', self.set_tamp_env_cb, 
+            callback_group=self.reentrant_group
+        )
+        self.move_to_target_srv = self.create_service(
+            MoveToTarget, 'move_to_target', self.move_to_target_cb,
             callback_group=self.reentrant_group
         )
 
@@ -250,7 +307,7 @@ class TAMPServer(Node):
             response.plan_success = False
 
         return response
-
+    
 
     def process_plan(self, plan):
 
@@ -302,8 +359,8 @@ class TAMPServer(Node):
         if self.plan_to_execute and len(self.plan_to_execute) > 0:
             self.get_logger().info("Starting plan execution...")
             
-            if self.execution_timer is not None:
-                self.execution_timer.cancel()
+            if self.execute_plan_timer is not None:
+                self.execute_plan_timer.cancel()
 
             self.plan_index = 0
             self.current_plan_step = 0
@@ -315,7 +372,7 @@ class TAMPServer(Node):
                     timer_period = plan_part['dt']
                     break
             
-            self.execution_timer = self.create_timer(timer_period, self.timer_callback)
+            self.execute_plan_timer = self.create_timer(timer_period, self.execute_plan_timer_cb)
             response.execute_success = True
         else:
             self.get_logger().warn("No plan to execute.")
@@ -325,7 +382,7 @@ class TAMPServer(Node):
         return response
 
 
-    def timer_callback(self):
+    def execute_plan_timer_cb(self):
         if self.is_waiting_after_step:
             if self.get_clock().now() - self.wait_start_time >= self.wait_duration:
                 self.is_waiting_after_step = False
@@ -333,9 +390,9 @@ class TAMPServer(Node):
                 return
 
         if not self.plan_to_execute or self.plan_index >= len(self.plan_to_execute):
-            if self.execution_timer is not None:
-                self.execution_timer.cancel()
-                self.execution_timer = None
+            if self.execute_plan_timer is not None:
+                self.execute_plan_timer.cancel()
+                self.execute_plan_timer = None
             # self.plan_to_execute = None
             return
 
@@ -352,8 +409,6 @@ class TAMPServer(Node):
                 self.arm_commands.header.stamp = self.get_clock().now().to_msg()
                 self.arm_commands.name = plan_trajectory.joint_names
                 self.arm_commands.position = plan_trajectory.position[self.current_plan_step].tolist()
-                self.arm_commands.velocity = plan_trajectory.velocity[self.current_plan_step].tolist()
-                self.arm_commands.effort = plan_trajectory.acceleration[self.current_plan_step].tolist()
                 
                 self.arm_commands_publisher.publish(self.arm_commands)
                 
@@ -369,8 +424,8 @@ class TAMPServer(Node):
             
         else:
             self.get_logger().error(f"Unknown plan type: {plan_type}")
-            if self.execution_timer is not None:
-                self.execution_timer.cancel()
+            if self.execute_plan_timer is not None:
+                self.execute_plan_timer.cancel()
             return
 
         if step_finished:
@@ -404,6 +459,38 @@ class TAMPServer(Node):
         if not response.success:
             self.get_logger().warn(f"Gripper action failed: {response.message}")
 
+
+    def move_to_target_cb(self, request, response):
+
+        self.cmd_plan = self.tamp.motion_plan(
+            q_init=request.q_init,
+            ee_translation_goal=np.array(request.target_position),
+            ee_orientation_goal=np.array(request.target_orientation),
+        )
+
+        self.current_plan_step = 0
+        timer_period = 0.016
+        
+        self.move_to_target_timer = self.create_timer(timer_period, self.move_to_target_timer_cb)
+        response.success = True
+
+        return response
+    
+
+    def move_to_target_timer_cb(self):
+
+        if not self.cmd_plan or self.current_plan_step >= len(self.cmd_plan):
+            if self.move_to_target_timer is not None:
+                self.move_to_target_timer.cancel()
+                self.move_to_target_timer = None
+            return
+
+        self.arm_commands.header.stamp = self.get_clock().now().to_msg()
+        self.arm_commands.name = self.tamp.cmd_js_names
+        self.arm_commands.position = self.cmd_plan[self.current_plan_step].position.tolist()
+        self.arm_commands_publisher.publish(self.arm_commands)
+
+        self.current_plan_step += 1
 
 if __name__ == "__main__":
 

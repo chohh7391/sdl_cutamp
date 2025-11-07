@@ -27,6 +27,9 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "srv/Execute.srv"
   "srv/SetTampEnv.srv"
   "srv/ToolChange.srv"
+  "srv/MoveToTarget.srv"
+  "srv/GetRobotInfo.srv"
+  "srv/GetToolInfo.srv"
   DEPENDENCIES trajectory_msgs
   )
 # uncomment the following section in order to fill in

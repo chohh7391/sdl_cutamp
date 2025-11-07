@@ -5,9 +5,9 @@ import numpy as np
 from isaacsim import SimulationApp
 
 from sensor_msgs.msg import JointState
-from std_msgs.msg import Bool
+from std_msgs.msg import Bool, String
 from std_srvs.srv import SetBool
-from tamp_interfaces.srv import ToolChange
+from tamp_interfaces.srv import ToolChange, GetRobotInfo, GetToolInfo
 
 
 ROBOT_STAGE_PATH = "/World/Robot"
@@ -75,6 +75,7 @@ class Simulation(Node):
 
         self.arm_joint_names = ["j1", "j2", "j3", "j4", "j5", "j6"]
         self.arm_joint_ids = []
+        self.current_tool = "empty"
 
         if not self.update_joint_ids():
             self.get_logger().error("Failed to initialize joint IDs. Shutting down.")
@@ -90,6 +91,8 @@ class Simulation(Node):
         self.arm_commands_sub = self.create_subscription(JointState, "isaac_arm_commands", self.arm_commands_cb, 10)
         self.gripper_commands_srv = self.create_service(SetBool, "isaac_gripper_commands", self.gripper_commands_cb)
 
+        self.get_robot_info_srv = self.create_service(GetRobotInfo, "get_robot_info", self.get_robot_info_cb)
+        self.get_tool_info_srv = self.create_service(GetToolInfo, "get_tool_info", self.get_tool_info_cb)
         self.tool_change_srv = self.create_service(ToolChange, "tool_change", self.tool_change_cb)
 
         self.get_logger().info("Simulation Start")
@@ -132,7 +135,6 @@ class Simulation(Node):
                 js_msg.position = self.robot.get_joint_positions().tolist()
                 js_msg.velocity = self.robot.get_joint_velocities().tolist()
                 self.joint_states_pub.publish(js_msg)
-
         else:
             self.get_logger().info("Quit ROS2 Node")
             rclpy.try_shutdown()
@@ -180,6 +182,7 @@ class Simulation(Node):
             self.task.current_orientations = observations["current_orientations"]
 
             self.task.desired_tool = desired_tool
+            self.current_tool = desired_tool
 
             self._saved_robot_joint_positions = None
             if self.robot and self.robot.is_valid():
@@ -225,8 +228,63 @@ class Simulation(Node):
             response.success = False
             response.message = "Robot/Tool change Failed"
 
+        return response
+    
+
+    def get_robot_info_cb(self, request, response):
+        
+        response.q_init = self.robot.get_joint_positions()[:6].tolist() # dof = 6
+        response.joint_names = self.arm_joint_names
+        response.current_tool = self.current_tool
 
         return response
+    
+    def get_tool_info_cb(self, request, response):
+        
+        current_tool = request.current_tool
+        desired_tool = request.desired_tool
+
+        if current_tool == "empty":
+            response.current_tool_position = [0.0, 0.0, 0.0]
+            response.current_tool_orientation = [1.0, 0.0, 0.0, 0.0]
+        elif current_tool == "2f_85":
+            position, orientation = self.task.gripper_2f_85.get_world_pose()
+            response.current_tool_position = position.tolist()
+            response.current_tool_orientation = orientation.tolist()
+        elif current_tool == "ag95":
+            position, orientation = self.task.gripper_ag95.get_world_pose()
+            response.current_tool_position = position.tolist()
+            response.current_tool_orientation = orientation.tolist()
+        elif current_tool == "vgc10":
+            position, orientation = self.task.gripper_vgc10.get_world_pose()
+            response.current_tool_position = position.tolist()
+            response.current_tool_orientation = orientation.tolist()
+        else:
+            raise ValueError("available tools are 'empty', 'ag95', '2f_85', 'vgc10'")
+        
+        if desired_tool == "2f_85":
+            position, orientation = self.task.gripper_2f_85.get_world_pose()
+            response.desired_tool_position = position.tolist()
+            response.desired_tool_orientation = orientation.tolist()
+        elif desired_tool == "ag95":
+            position, orientation = self.task.gripper_ag95.get_world_pose()
+            response.desired_tool_position = position.tolist()
+            response.desired_tool_orientation = orientation.tolist()
+        elif desired_tool == "vgc10":
+            position, orientation = self.task.gripper_vgc10.get_world_pose()
+            response.desired_tool_position = position.tolist()
+            response.desired_tool_orientation = orientation.tolist()
+        else:
+            raise ValueError("available tools are 'ag95', '2f_85', 'vgc10'")
+        
+        self.get_logger().info(f"current_tool_position: {response.current_tool_position}")
+        self.get_logger().info(f"current_tool_orientation: {response.current_tool_orientation}")
+        self.get_logger().info(f"desired_tool_position: {response.desired_tool_position}")
+        self.get_logger().info(f"desired_tool_orientation: {response.desired_tool_orientation}")
+
+        
+        return response
+
 
 
 
