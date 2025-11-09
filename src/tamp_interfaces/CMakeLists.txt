@@ -29,6 +29,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "srv/SetTampCfg.srv"
   "srv/ToolChange.srv"
   "srv/MoveToTarget.srv"
+  "srv/MoveToTargetJs.srv"
   "srv/GetRobotInfo.srv"
   "srv/GetToolInfo.srv"
   DEPENDENCIES trajectory_msgs

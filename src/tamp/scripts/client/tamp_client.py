@@ -5,7 +5,7 @@ import sys
 import rclpy
 from rclpy.client import Client
 from tamp_interfaces.srv import (
-    Plan, Execute, SetTampEnv, SetTampCfg, ToolChange, MoveToTarget, GetRobotInfo, GetToolInfo
+    Plan, Execute, SetTampEnv, SetTampCfg, ToolChange, MoveToTarget, MoveToTargetJs, GetRobotInfo, GetToolInfo
 )
 from std_srvs.srv import SetBool
 from std_msgs.msg import String
@@ -54,6 +54,7 @@ class ControlSuiteShell(cmd.Cmd):
         self.tool_change_client = self.node.create_client(ToolChange, 'tool_change')
         self.gripper_commands_client = self.node.create_client(SetBool, "isaac_gripper_commands")
         self.move_to_target_client = self.node.create_client(MoveToTarget, "move_to_target")
+        self.move_to_target_js_client = self.node.create_client(MoveToTargetJs, "move_to_target_js")
         self.get_robot_info_client = self.node.create_client(GetRobotInfo, "get_robot_info")
         self.get_tool_info_client = self.node.create_client(GetToolInfo, "get_tool_info")
 
@@ -64,6 +65,8 @@ class ControlSuiteShell(cmd.Cmd):
             not self.set_tamp_cfg_client.wait_for_service(timeout_sec=1.0) and 
             not self.tool_change_client.wait_for_service(timeout_sec=1.0) and 
             not self.gripper_commands_client.wait_for_service(timeout_sec=1.0) and
+            not self.move_to_target_client.wait_for_service(timeout_sec=1.0) and 
+            not self.get_tool_info_client.wait_for_service(timeout_sec=1.0) and
             not self.get_robot_info_client.wait_for_service(timeout_sec=1.0) and 
             not self.get_tool_info_client.wait_for_service(timeout_sec=1.0) 
         ):
@@ -130,7 +133,7 @@ class ControlSuiteShell(cmd.Cmd):
         request = SetTampCfg.Request()
 
         desired_tool = arg.strip().lower()
-        assert desired_tool in {"empty", "ag95", "vgc10", "dh3", "ag95_c", "vgc10_c", "dh3_c"}
+        assert desired_tool in {"empty", "ag95", "vgc10", "dh3"}
 
         request.curobo_plan = True
         request.enable_visualizer = False
@@ -200,8 +203,20 @@ class ControlSuiteShell(cmd.Cmd):
             tool_change_response = self._call_service_and_wait(self.tool_change_client, tool_change_request)
             self.do_set_tamp_cfg(arg=desired_tool) # Change Robot Cfg
         else:
+            # move to home qpos -> move to current tool pose
+            # TODO: Visual Grippers are recognized as colliders
+            # move to home position
+            home_pos = [0.0, -1.05, -2.18, -1.57, 1.57, 0.0]
+            move_to_target_js_request = MoveToTargetJs.Request()
+            move_to_target_js_request.q_init = q_init
+            move_to_target_js_request.q_des = home_pos
+            self.do_set_tamp_env(arg="pouring")
+
+            move_to_target_js_response = self._call_service_and_wait(self.move_to_target_js_client, move_to_target_js_request)
+            time.sleep(3.0)
+            
             # move to current tool pose
-            self.do_set_tamp_cfg(arg=current_tool+"_c") # Change Robot Cfg
+            self.do_set_tamp_cfg(arg="empty") # Change Robot Cfg
             move_to_target_request = MoveToTarget.Request()
             move_to_target_request.q_init = q_init
             move_to_target_request.target_position = current_tool_position
@@ -264,6 +279,7 @@ class ControlSuiteShell(cmd.Cmd):
             self.node.get_logger().info(f"Service call successful, result: {response.success}")
         else:
             self.node.get_logger().warn("Service call failed")
+            
 
 
     ##############################################################################

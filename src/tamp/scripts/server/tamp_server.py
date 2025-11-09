@@ -7,7 +7,7 @@ from trajectory_msgs.msg import JointTrajectoryPoint
 from rclpy.duration import Duration as RclpyDuration # 이름 충돌을 피하기 위해 별칭 사용
 
 from tamp_interfaces.msg import PlanStep
-from tamp_interfaces.srv import Plan, Execute, SetTampEnv, MoveToTarget, SetTampCfg
+from tamp_interfaces.srv import Plan, Execute, SetTampEnv, MoveToTarget, MoveToTargetJs, SetTampCfg
 from builtin_interfaces.msg import Duration
 from simulation_interfaces.srv import GetEntityState
 from std_srvs.srv import SetBool
@@ -165,7 +165,47 @@ class TAMP:
             return None
         
         return cmd_plan
+    
+    def motion_plan_js(
+        self,
+        q_init: List,
+        q_des: List,
+    ):
+        tensor_args = TensorDeviceType()
 
+        _, _, timer, world = setup_cutamp(self.env, self.config, q_init)
+        motion_gen = world.get_motion_gen(collision_activation_distance=self.config.world_activation_distance)
+        if config.warmup_motion_gen:
+            with timer.time("curobo_motion_gen_warmup"):
+                motion_gen.warmup()
+
+        plan_config = MotionGenPlanConfig(
+            max_attempts=1, enable_finetune_trajopt=True,
+        )
+
+        cu_js_init = CuroboJointState(
+            position=tensor_args.to_device(q_init),
+            velocity=tensor_args.to_device(q_init) * 0.0,
+            acceleration=tensor_args.to_device(q_init) * 0.0,
+            jerk=tensor_args.to_device(q_init) * 0.0,
+            joint_names=self.cmd_js_names,
+        )
+        cu_js_des = CuroboJointState(
+            position=tensor_args.to_device(q_des),
+            velocity=tensor_args.to_device(q_des) * 0.0,
+            acceleration=tensor_args.to_device(q_des) * 0.0,
+            jerk=tensor_args.to_device(q_des) * 0.0,
+            joint_names=self.cmd_js_names,
+        )
+
+        result = motion_gen.plan_single_js(cu_js_init.unsqueeze(0), cu_js_des.unsqueeze(0), plan_config)
+        succ = result.success.item()
+        if succ:
+            cmd_plan = result.get_interpolated_plan().get_ordered_joint_state(self.cmd_js_names)
+        else:
+            return None
+    
+        return cmd_plan
 
         
 
@@ -221,6 +261,10 @@ class TAMPServer(Node):
         )
         self.move_to_target_srv = self.create_service(
             MoveToTarget, 'move_to_target', self.move_to_target_cb,
+            callback_group=self.reentrant_group
+        )
+        self.move_to_target_js_srv = self.create_service(
+            MoveToTargetJs, 'move_to_target_js', self.move_to_target_js_cb,
             callback_group=self.reentrant_group
         )
         
@@ -524,6 +568,20 @@ class TAMPServer(Node):
 
         return response
     
+    def move_to_target_js_cb(self, request, response):
+
+        self.cmd_plan = self.tamp.motion_plan_js(
+            q_init=request.q_init,
+            q_des=request.q_des,
+        )
+
+        self.current_plan_step = 0
+        timer_period = 0.016
+        
+        self.move_to_target_timer = self.create_timer(timer_period, self.move_to_target_timer_cb)
+        response.success = True
+
+        return response
 
     def move_to_target_timer_cb(self):
 
