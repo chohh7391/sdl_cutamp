@@ -9,7 +9,7 @@
 ## its affiliates is strictly prohibited.
 ##
 robot: 'fairino5_v6_robot'
-urdf_path: "robot/dcp_description/urdf/fr5_ag95.urdf"
+urdf_path: "robot/dcp_description/urdf/robot/fr5_ag95.urdf"
 collision_spheres: 
   shoulder_link:
     - 'center': [-0.0, -0.004, 0.159]

@@ -244,8 +244,8 @@ class Simulation(Node):
         
         current_tool = request.current_tool
         desired_tool = request.desired_tool
-        assert current_tool in {'empty', 'ag95', '2f_85', 'vgc10'}
-        assert desired_tool in {'ag95', '2f_85', 'vgc10'}
+        assert current_tool in {'empty', 'ag95', 'vgc10', 'dh3'}
+        assert desired_tool in {'ag95', 'vgc10', 'dh3'}
 
         observation = self.world.get_observations()
         gripper_base_position = observation["gripper_base_position"]

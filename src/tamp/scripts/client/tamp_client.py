@@ -130,21 +130,19 @@ class ControlSuiteShell(cmd.Cmd):
         request = SetTampCfg.Request()
 
         desired_tool = arg.strip().lower()
-        assert desired_tool in {"empty", "2f_85", "ag95", "vgc10"}
+        assert desired_tool in {"empty", "ag95", "vgc10", "dh3", "ag95_c", "vgc10_c", "dh3_c"}
 
         request.curobo_plan = True
         request.enable_visualizer = False
         request.viz_robot_mesh = False
         request.enable_experiment_logging = False
 
+        robot_name = "fr5"
+
         if arg.strip() == "empty":
-            request.robot = "fr5"
-        elif arg.strip() == "2f_85":
-            request.robot = "fr5_2f_85"
-        elif arg.strip() == "ag95":
-            request.robot = "fr5_ag95"
-        elif arg.strip() == "vgc10":
-            request.robot = "fr5_vgc10"
+            request.robot = robot_name
+        else:
+            request.robot = robot_name + "_" + desired_tool
 
         response = self._call_service_and_wait(self.set_tamp_cfg_client, request)
         if response:
@@ -170,8 +168,8 @@ class ControlSuiteShell(cmd.Cmd):
         self.node.get_logger().info(f"desired_tool: {desired_tool}")
 
 
-        assert current_tool in ["empty", "ag95", "2f_85", "vgc10"], f"Error: Tool '{arg.strip()}' is not supported."
-        assert desired_tool in ["ag95", "2f_85", "vgc10"], f"Error: Tool '{arg.strip()}' is not supported."
+        assert current_tool in ["empty", "ag95", "vgc10", "dh3"], f"Error: Tool '{arg.strip()}' is not supported."
+        assert desired_tool in ["ag95", "vgc10", "dh3"], f"Error: Tool '{arg.strip()}' is not supported."
         
         # get tool info
         get_tool_info_request = GetToolInfo.Request()
@@ -203,6 +201,7 @@ class ControlSuiteShell(cmd.Cmd):
             self.do_set_tamp_cfg(arg=desired_tool) # Change Robot Cfg
         else:
             # move to current tool pose
+            self.do_set_tamp_cfg(arg=current_tool+"_c") # Change Robot Cfg
             move_to_target_request = MoveToTarget.Request()
             move_to_target_request.q_init = q_init
             move_to_target_request.target_position = current_tool_position

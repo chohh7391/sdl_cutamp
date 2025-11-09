@@ -31,7 +31,7 @@ fr5_home = (0.0, -1.05, -2.18, -1.57, 1.57, 0.0)
 @lru_cache(maxsize=1)
 def fr5_curobo_cfg() -> dict:
     assets_dir = Path(__file__).parent / "assets"
-    # Note: use ur5e_robotiq_2f_85.yml for UR5e with camera mount (on MIT setup)
+    # Note: use fr5.yml for UR5e with camera mount (on MIT setup)
     cfg = load_yaml(str(assets_dir / "fr5.yml"))
     # Set some asset paths so cuRobo can load our URDF and meshes
     keys = ["external_asset_path", "external_robot_configs_path"]

@@ -104,9 +104,9 @@ class Task(ABC, BaseTask):
                 0.0, -1.05, -2.18, -1.57, 1.57, 0.0, # Arm joint position
             ])
 
-            self.gripper_2f_85.set_visibility(True)
             self.gripper_ag95.set_visibility(True)
             self.gripper_vgc10.set_visibility(True)
+            self.gripper_dh3.set_visibility(True)
 
         elif desired_tool == "ag95":
             robot_asset_path = os.path.join(
@@ -137,31 +137,6 @@ class Task(ABC, BaseTask):
             ])
             self.gripper_ag95.set_visibility(False)
             
-        elif desired_tool == "2f_85":
-            robot_asset_path = os.path.join(os.path.abspath(__file__), "..", "..", "..", "..", "tamp/content/assets/robot/dcp_description/usd/fr5_2f_85/fr5_2f_85.usd")
-            robot_prim_path = find_unique_string_name(
-                initial_name=self._robot_prim_path, is_unique_fn=lambda x: not is_prim_path_valid(x)
-            )
-            robot_name = find_unique_string_name(
-                initial_name=self._robot_name, is_unique_fn=lambda x: not self.scene.object_exists(x)
-            )
-
-            self._robot = FR5(
-                prim_path=robot_prim_path,
-                name=robot_name,
-                usd_path=robot_asset_path,
-                end_effector_prim_name="Robotiq_2F_85_edit/Robotiq_2F_85/right_inner_finger",
-                gripper_dof_names=["finger_joint"],
-                use_mimic_joints=True,
-                gripper_open_position=np.array([0.0]),
-                gripper_closed_position=np.array([0.82]),
-            )
-            self._robot.joints_default_state = np.array([
-                0.0, -1.05, -2.18, -1.57, 1.57, 0.0, # Arm joint position
-                0.0, 0.0, 0.0, 0.0, 0.0, 0.0, # Gripper joint position
-            ])
-            self.gripper_2f_85.set_visibility(False)
-
         elif desired_tool == "vgc10":
             robot_asset_path = os.path.join(
                 os.path.abspath(__file__),
@@ -189,10 +164,37 @@ class Task(ABC, BaseTask):
             ])
             self.gripper_vgc10.set_visibility(False)
 
-        
+        elif desired_tool == "dh3":
+            robot_asset_path = os.path.join(
+                os.path.abspath(__file__),
+                "..", "..", "..", "..",
+                "tamp/content/assets/robot/dcp_description/usd/fr5_dh3/fr5_dh3.usd"
+            )
+            robot_prim_path = find_unique_string_name(
+                initial_name=self._robot_prim_path, is_unique_fn=lambda x: not is_prim_path_valid(x)
+            )
+            robot_name = find_unique_string_name(
+                initial_name=self._robot_name, is_unique_fn=lambda x: not self.scene.object_exists(x)
+            )
+
+            self._robot = FR5(
+                prim_path=robot_prim_path,
+                name=robot_name,
+                usd_path=robot_asset_path,
+                end_effector_prim_name="finger3_tip_link",
+                gripper_dof_names=["finger1_joint"],
+                use_mimic_joints=True,
+                gripper_open_position=np.array([0.0]),
+                gripper_closed_position=np.array([1.16]),
+            )
+            self._robot.joints_default_state = np.array([
+                0.0, -1.05, -2.18, -1.57, 1.57, 0.0, # Arm joint position
+                0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, # Gripper joint position
+            ])
+            self.gripper_dh3.set_visibility(False)
 
         else:
-            raise ValueError("Available Grippers are only 'ag95', '2f_85', 'vgc10', 'empty'")
+            raise ValueError("Available Grippers are only 'empty', 'ag95', 'vgc10', 'dh3'")
 
         self.current_tool = desired_tool
         
@@ -270,20 +272,6 @@ class Task(ABC, BaseTask):
             "tamp/content/assets/robot/dcp_description/usd/gripper_visual"
         )
 
-        # 2f_85
-        add_reference_to_stage(
-            usd_path=os.path.join(gripper_visual_asset_path, "2f_85.usd"),
-            prim_path="/World/gripper_visual/gripper_2f_85"
-        )
-        self.gripper_2f_85 = SingleXFormPrim(
-            prim_path="/World/gripper_visual/gripper_2f_85",
-            name="gripper_2f_85"
-        )
-        self.gripper_2f_85.set_world_pose(
-            position=[0.6, 0.0, 0.2],
-            orientation=[0, 0, 1, 0],
-        )
-
         # ag95
         add_reference_to_stage(
             usd_path=os.path.join(gripper_visual_asset_path, "ag95", "ag95.usd"),
@@ -294,7 +282,7 @@ class Task(ABC, BaseTask):
             name="gripper_ag95"
         )
         self.gripper_ag95.set_world_pose(
-            position=[0.6, 0.2, 0.2],
+            position=[0.6, 0.0, 0.25],
             orientation=[0, 0, 1, 0],
         )
 
@@ -308,15 +296,25 @@ class Task(ABC, BaseTask):
             name="gripper_vgc10"
         )
         self.gripper_vgc10.set_world_pose(
-            position=[0.6, 0.4, 0.2],
+            position=[0.6, 0.2, 0.25],
+            orientation=[0, 0, 1, 0],
+        )
+
+        # dh3
+        add_reference_to_stage(
+            usd_path=os.path.join(gripper_visual_asset_path, "dh3", "dh3.usd"),
+            prim_path="/World/gripper_visual/gripper_dh3"
+        )
+        self.gripper_dh3 = SingleXFormPrim(
+            prim_path="/World/gripper_visual/gripper_dh3",
+            name="gripper_dh3"
+        )
+        self.gripper_dh3.set_world_pose(
+            position=[0.6, 0.4, 0.25],
             orientation=[0, 0, 1, 0],
         )
 
         # gripper_base_link xform
-        self.gripper_base_2f_85 = SingleXFormPrim(
-            prim_path="/World/gripper_visual/gripper_2f_85/base_link",
-            name="gripper_base_2f_85"
-        )
         self.gripper_base_ag95 = SingleXFormPrim(
             prim_path="/World/gripper_visual/gripper_ag95/gripper_base_link",
             name="gripper_base_ag95"
@@ -324,6 +322,10 @@ class Task(ABC, BaseTask):
         self.gripper_base_vgc10 = SingleXFormPrim(
             prim_path="/World/gripper_visual/gripper_vgc10/onrobot_vgc10_base_link",
             name="gripper_base_vgc10"
+        )
+        self.gripper_base_dh3 = SingleXFormPrim(
+            prim_path="/World/gripper_visual/gripper_dh3/gripper_base_link",
+            name="gripper_base_dh3"
         )
 
 
@@ -338,9 +340,9 @@ class Task(ABC, BaseTask):
         magnet_pos, magnet_ori = self.magnet.get_world_pose()
 
         # gripper base pose
-        gripper_base_2f_85_pos, gripper_base_2f_85_ori = self.gripper_base_2f_85.get_world_pose()
         gripper_base_ag95_pos, gripper_base_ag95_ori = self.gripper_base_ag95.get_world_pose()
         gripper_base_vgc10_pos, gripper_base_vgc10_ori = self.gripper_base_vgc10.get_world_pose()
+        gripper_base_dh3_pos, gripper_base_dh3_ori = self.gripper_base_dh3.get_world_pose()
         
         # observation dict
         observations = {
@@ -360,15 +362,15 @@ class Task(ABC, BaseTask):
             },
             "gripper_base_position": {
                 "empty": [0.0, 0.0, 0.0],
-                "2f_85": gripper_base_2f_85_pos.tolist(),
                 "ag95": gripper_base_ag95_pos.tolist(),
                 "vgc10": gripper_base_vgc10_pos.tolist(),
+                "dh3": gripper_base_dh3_pos.tolist(),
             },
             "gripper_base_orientation": {
                 "empty": [1.0, 0.0, 0.0, 0.0],
-                "2f_85": gripper_base_2f_85_ori.tolist(),
                 "ag95": gripper_base_ag95_ori.tolist(),
                 "vgc10": gripper_base_vgc10_ori.tolist(),
+                "dh3": gripper_base_dh3_ori.tolist(),
             },
         }
 

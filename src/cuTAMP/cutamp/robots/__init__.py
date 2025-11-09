@@ -24,9 +24,14 @@ from .franka import (
     franka_neutral_joint_positions,
     load_franka_rerun,
 )
-from .ur5 import load_ur5_rerun, ur5_home, get_ur5_gripper_spheres, get_ur5_ik_solver, get_ur5_kinematics_model
-from .fr5 import load_fr5_rerun, fr5_home, get_fr5_gripper_spheres, get_fr5_ik_solver, get_fr5_kinematics_model
-from .fr5_ag95 import load_fr5_ag95_rerun, fr5_home, get_fr5_ag95_gripper_spheres, get_fr5_ag95_ik_solver, get_fr5_ag95_kinematics_model
+from .ur5 import load_ur5_rerun, ur5_home, get_ur5_gripper_spheres, get_ur5_kinematics_model
+from .fr5 import load_fr5_rerun, fr5_home, get_fr5_gripper_spheres, get_fr5_kinematics_model
+from .fr5_ag95 import load_fr5_ag95_rerun, fr5_home, get_fr5_ag95_gripper_spheres, get_fr5_ag95_kinematics_model
+from .fr5_vgc10 import load_fr5_vgc10_rerun, fr5_home, get_fr5_vgc10_gripper_spheres, get_fr5_vgc10_kinematics_model
+from .fr5_dh3 import load_fr5_dh3_rerun, fr5_home, get_fr5_dh3_gripper_spheres, get_fr5_dh3_kinematics_model
+from .fr5_ag95_c import load_fr5_ag95_c_rerun, fr5_home, get_fr5_ag95_c_gripper_spheres, get_fr5_ag95_c_kinematics_model
+from .fr5_vgc10_c import load_fr5_vgc10_c_rerun, fr5_home, get_fr5_vgc10_c_gripper_spheres, get_fr5_vgc10_c_kinematics_model
+from .fr5_dh3_c import load_fr5_dh3_c_rerun, fr5_home, get_fr5_dh3_c_gripper_spheres, get_fr5_dh3_c_kinematics_model
 from .utils import RerunRobot
 
 
@@ -96,6 +101,76 @@ def load_fr5_ag95_container(tensor_args: TensorDeviceType) -> RobotContainer:
     tool_from_ee[:3, 3] = tensor_args.to_device([0.0, 0.0, 0.0])
     return RobotContainer("fr5_ag95", kin_model, joint_limits, gripper_spheres, tool_from_ee)
 
+def load_fr5_vgc10_container(tensor_args: TensorDeviceType) -> RobotContainer:
+    kin_model = get_fr5_vgc10_kinematics_model()
+    joint_limits = kin_model.kinematics_config.joint_limits.position
+    assert joint_limits.shape == (2, 6), f"Invalid joint limits shape: {joint_limits.shape}"
+
+    gripper_spheres = get_fr5_vgc10_gripper_spheres(tensor_args)
+    # See screenshot in assets/ur5_home.png to see gripper frame
+    tool_from_ee = torch.eye(4, device=tensor_args.device)
+    rpy = tensor_args.to_device([torch.pi, 0, torch.pi / 2])
+    tool_from_ee[:3, :3] = roma.euler_to_rotmat("XYZ", rpy)
+    # The Robotiq gripper goes down when closing, so we move the tool frame up by 1cm
+    tool_from_ee[:3, 3] = tensor_args.to_device([0.0, 0.0, 0.0])
+    return RobotContainer("fr5_vgc10", kin_model, joint_limits, gripper_spheres, tool_from_ee)
+
+def load_fr5_dh3_container(tensor_args: TensorDeviceType) -> RobotContainer:
+    kin_model = get_fr5_dh3_kinematics_model()
+    joint_limits = kin_model.kinematics_config.joint_limits.position
+    assert joint_limits.shape == (2, 6), f"Invalid joint limits shape: {joint_limits.shape}"
+
+    gripper_spheres = get_fr5_dh3_gripper_spheres(tensor_args)
+    # See screenshot in assets/ur5_home.png to see gripper frame
+    tool_from_ee = torch.eye(4, device=tensor_args.device)
+    rpy = tensor_args.to_device([torch.pi, 0, torch.pi / 2])
+    tool_from_ee[:3, :3] = roma.euler_to_rotmat("XYZ", rpy)
+    # The Robotiq gripper goes down when closing, so we move the tool frame up by 1cm
+    tool_from_ee[:3, 3] = tensor_args.to_device([0.0, 0.0, 0.0])
+    return RobotContainer("fr5_dh3", kin_model, joint_limits, gripper_spheres, tool_from_ee)
+
+def load_fr5_ag95_c_container(tensor_args: TensorDeviceType) -> RobotContainer:
+    kin_model = get_fr5_ag95_c_kinematics_model()
+    joint_limits = kin_model.kinematics_config.joint_limits.position
+    assert joint_limits.shape == (2, 6), f"Invalid joint limits shape: {joint_limits.shape}"
+
+    gripper_spheres = get_fr5_ag95_c_gripper_spheres(tensor_args)
+    # See screenshot in assets/ur5_home.png to see gripper frame
+    tool_from_ee = torch.eye(4, device=tensor_args.device)
+    rpy = tensor_args.to_device([torch.pi, 0, torch.pi / 2])
+    tool_from_ee[:3, :3] = roma.euler_to_rotmat("XYZ", rpy)
+    # The Robotiq gripper goes down when closing, so we move the tool frame up by 1cm
+    tool_from_ee[:3, 3] = tensor_args.to_device([0.0, 0.0, 0.0])
+    return RobotContainer("fr5_ag95_c", kin_model, joint_limits, gripper_spheres, tool_from_ee)
+
+def load_fr5_vgc10_c_container(tensor_args: TensorDeviceType) -> RobotContainer:
+    kin_model = get_fr5_vgc10_c_kinematics_model()
+    joint_limits = kin_model.kinematics_config.joint_limits.position
+    assert joint_limits.shape == (2, 6), f"Invalid joint limits shape: {joint_limits.shape}"
+
+    gripper_spheres = get_fr5_vgc10_c_gripper_spheres(tensor_args)
+    # See screenshot in assets/ur5_home.png to see gripper frame
+    tool_from_ee = torch.eye(4, device=tensor_args.device)
+    rpy = tensor_args.to_device([torch.pi, 0, torch.pi / 2])
+    tool_from_ee[:3, :3] = roma.euler_to_rotmat("XYZ", rpy)
+    # The Robotiq gripper goes down when closing, so we move the tool frame up by 1cm
+    tool_from_ee[:3, 3] = tensor_args.to_device([0.0, 0.0, 0.0])
+    return RobotContainer("fr5_vgc10_c", kin_model, joint_limits, gripper_spheres, tool_from_ee)
+
+def load_fr5_dh3_c_container(tensor_args: TensorDeviceType) -> RobotContainer:
+    kin_model = get_fr5_dh3_c_kinematics_model()
+    joint_limits = kin_model.kinematics_config.joint_limits.position
+    assert joint_limits.shape == (2, 6), f"Invalid joint limits shape: {joint_limits.shape}"
+
+    gripper_spheres = get_fr5_dh3_c_gripper_spheres(tensor_args)
+    # See screenshot in assets/ur5_home.png to see gripper frame
+    tool_from_ee = torch.eye(4, device=tensor_args.device)
+    rpy = tensor_args.to_device([torch.pi, 0, torch.pi / 2])
+    tool_from_ee[:3, :3] = roma.euler_to_rotmat("XYZ", rpy)
+    # The Robotiq gripper goes down when closing, so we move the tool frame up by 1cm
+    tool_from_ee[:3, 3] = tensor_args.to_device([0.0, 0.0, 0.0])
+    return RobotContainer("fr5_dh3_c", kin_model, joint_limits, gripper_spheres, tool_from_ee)
+
 
 robot_to_fns = {
     "panda": {
@@ -117,6 +192,31 @@ robot_to_fns = {
         "rerun": load_fr5_ag95_rerun,
         "q_home": fr5_home[:6],
         "container": load_fr5_ag95_container,
+    },
+    "fr5_vgc10": {
+        "rerun": load_fr5_vgc10_rerun,
+        "q_home": fr5_home[:6],
+        "container": load_fr5_vgc10_container,
+    },
+    "fr5_dh3": {
+        "rerun": load_fr5_dh3_rerun,
+        "q_home": fr5_home[:6],
+        "container": load_fr5_dh3_container,
+    },
+    "fr5_ag95_c": {
+        "rerun": load_fr5_ag95_c_rerun,
+        "q_home": fr5_home[:6],
+        "container": load_fr5_ag95_c_container,
+    },
+    "fr5_vgc10_c": {
+        "rerun": load_fr5_vgc10_c_rerun,
+        "q_home": fr5_home[:6],
+        "container": load_fr5_vgc10_c_container,
+    },
+    "fr5_dh3_c": {
+        "rerun": load_fr5_dh3_c_rerun,
+        "q_home": fr5_home[:6],
+        "container": load_fr5_dh3_c_container,
     },
 }
 

@@ -17,7 +17,9 @@ class TAMPConfiguration:
     num_particles: int = 1024
 
     # Robot embodiment to use
-    robot: Literal["panda", "ur5", "fr5", "fr5_ag95"] = "fr5"
+    robot: Literal[
+        "panda", "ur5", "fr5", "fr5_ag95", "fr5_vgc10", "fr5_dh3",
+        "fr5_ag95_c", "fr5_vgc10_c", "fr5_dh3_c"] = "fr5"
 
     # Grasp and Placements
     grasp_dof: Literal[4, 6] = 4
@@ -101,7 +103,9 @@ class TAMPConfiguration:
 def validate_tamp_config(config: TAMPConfiguration):
     if config.num_particles <= 0:
         raise ValueError(f"num_particles must be positive, not {config.num_particles}")
-    if config.robot not in {"panda", "ur5", "fr5", "fr5_ag95"}:
+    if config.robot not in {
+        "panda", "ur5", "fr5", "fr5_ag95", "fr5_vgc10", "fr5_dh3",
+        "fr5_ag95_c", "fr5_vgc10_c", "fr5_dh3_c"}:
         raise ValueError(f"Invalid embodiment: {config.robot}")
     if config.grasp_dof not in {4, 6}:
         raise ValueError(f"Invalid grasp_dof: {config.grasp_dof}")
