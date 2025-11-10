@@ -166,11 +166,6 @@ class ControlSuiteShell(cmd.Cmd):
         current_tool = get_robot_info_response.current_tool
         desired_tool = arg.strip().lower()
 
-        self.node.get_logger().info(f"q_init: {q_init}")
-        self.node.get_logger().info(f"current_tool: {current_tool}")
-        self.node.get_logger().info(f"desired_tool: {desired_tool}")
-
-
         assert current_tool in ["empty", "ag95", "vgc10", "dh3"], f"Error: Tool '{arg.strip()}' is not supported."
         assert desired_tool in ["ag95", "vgc10", "dh3"], f"Error: Tool '{arg.strip()}' is not supported."
         

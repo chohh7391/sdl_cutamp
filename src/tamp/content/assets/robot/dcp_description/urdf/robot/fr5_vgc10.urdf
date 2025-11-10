@@ -211,12 +211,12 @@
   <link name="tool0"/>
 
   <!-- Gripper -->
-  <joint name="onrobot_vgc10_base_joint" type="fixed">
+  <joint name="gripper_base_joint" type="fixed">
     <parent link="tool0"/>
-    <child link="onrobot_vgc10_base_link"/>
+    <child link="gripper_base_link"/>
     <origin rpy="0 0 0" xyz="0 0 0"/>
   </joint>
-  <link name="onrobot_vgc10_base_link">
+  <link name="gripper_base_link">
     <inertial>
       <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
       <mass value="0.6"/>
@@ -240,7 +240,7 @@
   </link>
   <joint name="suction_joint" type="fixed">
     <origin rpy="0 0 0" xyz="0 0 0.094901"/>
-    <parent link="onrobot_vgc10_base_link"/>
+    <parent link="gripper_base_link"/>
     <child link="suction"/>
     <axis xyz="1 0 0"/>
   </joint>
@@ -265,5 +265,19 @@
         <mesh filename="package://dcp_description/meshes/gripper/vgc10/collision/suction_cup_1cup.stl"/>
       </geometry>
     </collision>
+  </link>
+  <joint name="grasp_joint" type="fixed">
+    <origin rpy="0 0 0.0" xyz="0 0 0.18"/>
+    <axis xyz="0 0 1"/>
+    <parent link="gripper_base_link"/>
+    <child link="grasp_frame"/>
+  </joint>
+  <link name="grasp_frame">
+    <inertial>
+      <!-- Dummy inertial parameters to avoid link lumping-->
+      <mass value="0.01"/>
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </inertial>
   </link>
 </robot>

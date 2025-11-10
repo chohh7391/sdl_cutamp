@@ -11,14 +11,14 @@ robot_cfg:
     external_robot_configs_path: "/home/home/sdl_cutamp_ws/src/tamp/content/configs/robot"
 
     base_link: 'base_link'
-    ee_link: 'suction'
+    ee_link: 'grasp_frame'
     link_names: null
 
-    lock_joints: {}  # VGC10은 구동 조인트 없음
+    lock_joints: {}
 
     extra_links: {
       "attached_object": {
-        "parent_link_name": "suction",
+        "parent_link_name": "grasp_frame",
         "link_name": "attached_object",
         "fixed_transform": [0,0,0,1,0,0,0],
         "joint_type": "FIXED",
@@ -32,7 +32,7 @@ robot_cfg:
       'shoulder_link', 'upperarm_link', 'forearm_link',
       'wrist1_link', 'wrist2_link', 'wrist3_link',
       # VGC10
-      'onrobot_vgc10_base_link', 'suction',
+      'gripper_base_link', 'suction',
       # Attached object
       'attached_object'
     ]
@@ -44,19 +44,19 @@ robot_cfg:
       'forearm_link': ['wrist1_link', 'wrist2_link', 'wrist3_link'],
       'wrist1_link': [
         'wrist2_link', 'wrist3_link',
-        'onrobot_vgc10_base_link', 'suction',
+        'gripper_base_link', 'suction',
       ],
       'wrist2_link': [
         'wrist3_link',
-        'onrobot_vgc10_base_link', 'suction',
+        'gripper_base_link', 'suction',
         'attached_object'
       ],
       'wrist3_link': [
-        'onrobot_vgc10_base_link', 'suction',
+        'gripper_base_link', 'suction',
         'attached_object'
       ],
       'suction': [
-        'onrobot_vgc10_base_link', 'attached_object'
+        'gripper_base_link', 'attached_object'
       ],
     }
 
@@ -67,7 +67,7 @@ robot_cfg:
       'wrist1_link': 0,
       'wrist2_link': 0,
       'wrist3_link': 0.025,
-      'onrobot_vgc10_base_link': 0.015,
+      'gripper_base_link': 0.015,
       'suction': 0.015,
     }
 
@@ -78,7 +78,7 @@ robot_cfg:
       'shoulder_link', 'upperarm_link', 'forearm_link',
       'wrist1_link', 'wrist2_link', 'wrist3_link', 'tool0',
       # VGC10
-      'onrobot_vgc10_base_link', 'suction',
+      'gripper_base_link', 'suction',
       'vgc10_left_suction_link', 'vgc10_right_suction_link'
     ]
 

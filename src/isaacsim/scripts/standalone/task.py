@@ -282,7 +282,7 @@ class Task(ABC, BaseTask):
             name="gripper_ag95"
         )
         self.gripper_ag95.set_world_pose(
-            position=[0.6, 0.0, 0.25],
+            position=[-0.6, -0.4, 0.25],
             orientation=[0, 0, 1, 0],
         )
 
@@ -296,7 +296,7 @@ class Task(ABC, BaseTask):
             name="gripper_vgc10"
         )
         self.gripper_vgc10.set_world_pose(
-            position=[0.6, 0.2, 0.25],
+            position=[-0.6, 0.0, 0.25],
             orientation=[0, 0, 1, 0],
         )
 
@@ -310,7 +310,7 @@ class Task(ABC, BaseTask):
             name="gripper_dh3"
         )
         self.gripper_dh3.set_world_pose(
-            position=[0.6, 0.4, 0.25],
+            position=[-0.6, 0.4, 0.25],
             orientation=[0, 0, 1, 0],
         )
 
@@ -320,7 +320,7 @@ class Task(ABC, BaseTask):
             name="gripper_base_ag95"
         )
         self.gripper_base_vgc10 = SingleXFormPrim(
-            prim_path="/World/gripper_visual/gripper_vgc10/onrobot_vgc10_base_link",
+            prim_path="/World/gripper_visual/gripper_vgc10/gripper_base_link",
             name="gripper_base_vgc10"
         )
         self.gripper_base_dh3 = SingleXFormPrim(
