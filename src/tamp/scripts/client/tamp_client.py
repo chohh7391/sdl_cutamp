@@ -8,8 +8,6 @@ from tamp_interfaces.srv import (
     Plan, Execute, SetTampEnv, SetTampCfg, ToolChange, MoveToTarget, MoveToTargetJs, GetRobotInfo, GetToolInfo
 )
 from std_srvs.srv import SetBool
-from std_msgs.msg import String
-from sensor_msgs.msg import JointState
 import time
 
 
@@ -128,11 +126,10 @@ class ControlSuiteShell(cmd.Cmd):
         else:
             self.node.get_logger().warn("Service call failed")
 
-    def do_set_tamp_cfg(self, arg):
+    def set_tamp_cfg(self, desired_tool: str):
 
         request = SetTampCfg.Request()
 
-        desired_tool = arg.strip().lower()
         assert desired_tool in {"empty", "ag95", "vgc10", "dh3"}
 
         request.curobo_plan = True
@@ -142,7 +139,7 @@ class ControlSuiteShell(cmd.Cmd):
 
         robot_name = "fr5"
 
-        if arg.strip() == "empty":
+        if desired_tool == "empty":
             request.robot = robot_name
         else:
             request.robot = robot_name + "_" + desired_tool
@@ -161,8 +158,6 @@ class ControlSuiteShell(cmd.Cmd):
         # get robot info
         get_robot_info_request = GetRobotInfo.Request()
         get_robot_info_response = self._call_service_and_wait(self.get_robot_info_client, get_robot_info_request)
-        q_init = get_robot_info_response.q_init
-        joint_names = get_robot_info_response.joint_names
         current_tool = get_robot_info_response.current_tool
         desired_tool = arg.strip().lower()
 
@@ -181,79 +176,48 @@ class ControlSuiteShell(cmd.Cmd):
 
         if current_tool == "empty":
             # directly move to desired tool pose
-            move_to_target_request = MoveToTarget.Request()
-            move_to_target_request.q_init = q_init
-            move_to_target_request.target_position = desired_tool_position
-            move_to_target_request.target_orientation = desired_tool_orientation
-
-            self.do_set_tamp_env(arg="pouring") # For Update Env
-
-            move_to_target_response = self._call_service_and_wait(self.move_to_target_client, move_to_target_request)
-            time.sleep(3.0)
+            self.move_to_target(desired_tool_position, desired_tool_orientation)
 
             # grip tool
             tool_change_request = ToolChange.Request()
             tool_change_request.desired_tool = desired_tool
 
             tool_change_response = self._call_service_and_wait(self.tool_change_client, tool_change_request)
-            self.do_set_tamp_cfg(arg=desired_tool) # Change Robot Cfg
+            self.set_tamp_cfg(desired_tool) # Change Robot Cfg
+
+            self.do_home()
         else:
             # move to home qpos -> move to current tool pose
             # TODO: Visual Grippers are recognized as colliders
             # move to home position
-            home_pos = [0.0, -1.05, -2.18, -1.57, 1.57, 0.0]
-            move_to_target_js_request = MoveToTargetJs.Request()
-            move_to_target_js_request.q_init = q_init
-            move_to_target_js_request.q_des = home_pos
-            self.do_set_tamp_env(arg="pouring")
-
-            move_to_target_js_response = self._call_service_and_wait(self.move_to_target_js_client, move_to_target_js_request)
-            time.sleep(3.0)
+            self.do_home()
+            self.set_tamp_cfg("empty") # Change Robot Cfg
             
             # move to current tool pose
-            self.do_set_tamp_cfg(arg="empty") # Change Robot Cfg
-            move_to_target_request = MoveToTarget.Request()
-            move_to_target_request.q_init = q_init
-            move_to_target_request.target_position = current_tool_position
-            move_to_target_request.target_orientation = current_tool_orientation
-
-            self.do_set_tamp_env(arg="pouring")
-
-            move_to_target_response = self._call_service_and_wait(self.move_to_target_client, move_to_target_request)
-            time.sleep(3.0)
+            self.move_to_target(current_tool_position, current_tool_orientation)
 
             # release tool
             tool_change_request = ToolChange.Request()
             tool_change_request.desired_tool = "empty"
 
             tool_change_response = self._call_service_and_wait(self.tool_change_client, tool_change_request)
-            self.do_set_tamp_cfg(arg="empty") # Change Robot Cfg
+            self.set_tamp_cfg("empty") # Change Robot Cfg
 
             # move to desired_tool pose
-            get_robot_info_request = GetRobotInfo.Request()
-            get_robot_info_response = self._call_service_and_wait(self.get_robot_info_client, get_robot_info_request)
-            q_init = get_robot_info_response.q_init
-
-            move_to_target_request = MoveToTarget.Request()
-            move_to_target_request.q_init = q_init
-            move_to_target_request.target_position = desired_tool_position
-            move_to_target_request.target_orientation = desired_tool_orientation
-
-            self.do_set_tamp_env(arg="pouring")
-
-            move_to_target_response = self._call_service_and_wait(self.move_to_target_client, move_to_target_request)
-            time.sleep(3.0)
+            self.move_to_target(desired_tool_position, desired_tool_orientation)
 
             # grip tool
             tool_change_request = ToolChange.Request()
             tool_change_request.desired_tool = desired_tool
 
             tool_change_response = self._call_service_and_wait(self.tool_change_client, tool_change_request)
-            self.do_set_tamp_cfg(arg=desired_tool) # Change Robot Cfg
+            self.set_tamp_cfg(desired_tool) # Change Robot Cfg
+
+            self.do_home()
 
 
-        if move_to_target_response and tool_change_response:
-            self.node.get_logger().info(f"Service call successful, result: {move_to_target_response.success}")
+        if tool_change_response:
+            self.node.get_logger().info(f"Service call successful, result: {tool_change_response.success}")
         else:
             self.node.get_logger().warn("Service call failed")
 
@@ -274,7 +238,43 @@ class ControlSuiteShell(cmd.Cmd):
             self.node.get_logger().info(f"Service call successful, result: {response.success}")
         else:
             self.node.get_logger().warn("Service call failed")
-            
+
+    
+    def do_home(self):
+
+        home_pos = [0.0, -1.05, -2.18, -1.57, 1.57, 0.0]
+        self.move_to_target_js(home_pos)
+
+    
+    def move_to_target(self, target_position, target_orientation):
+
+        request = MoveToTarget.Request()
+        request.target_position = target_position
+        request.target_orientation = target_orientation
+
+        self.do_set_tamp_env(arg="pouring") # For Update Env
+
+        response = self._call_service_and_wait(self.move_to_target_client, request)
+        time.sleep(3.0)
+        if response:
+            self.node.get_logger().info(f"Service call successful, result: {response.success}")
+        else:
+            self.node.get_logger().warn("Service call failed")
+        
+
+    def move_to_target_js(self, target_js):
+
+        request = MoveToTargetJs.Request()
+        request.q_des = target_js
+
+        self.do_set_tamp_env(arg="pouring") # For Update Env
+
+        response = self._call_service_and_wait(self.move_to_target_js_client, request)
+        time.sleep(3.0)
+        if response:
+            self.node.get_logger().info(f"Service call successful, result: {response.success}")
+        else:
+            self.node.get_logger().warn("Service call failed")
 
 
     ##############################################################################

@@ -1,11 +1,9 @@
-import sys, os
 import rclpy
 from rclpy.node import Node
 import numpy as np
 from isaacsim import SimulationApp
 
 from sensor_msgs.msg import JointState
-from std_msgs.msg import Bool, String
 from std_srvs.srv import SetBool
 from tamp_interfaces.srv import ToolChange, GetRobotInfo, GetToolInfo
 
@@ -26,13 +24,8 @@ class Simulation(Node):
 
         self.simulation_app = SimulationApp(CONFIG)
 
-        import carb
-        import omni.graph.core as og
-        import usdrt.Sdf
         from isaacsim.core.api import World
-        from isaacsim.core.utils import extensions, prims, rotations, stage, viewports
-        from isaacsim.storage.native import get_assets_root_path
-        from pxr import Gf
+        from isaacsim.core.utils import extensions, prims, viewports
         from isaacsim.core.utils.types import ArticulationAction
 
         extensions.enable_extension("isaacsim.ros2.sim_control")

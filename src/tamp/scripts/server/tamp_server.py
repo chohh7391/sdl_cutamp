@@ -12,7 +12,6 @@ from builtin_interfaces.msg import Duration
 from simulation_interfaces.srv import GetEntityState
 from std_srvs.srv import SetBool
 
-from rclpy.client import Client
 from rclpy.executors import MultiThreadedExecutor
 from rclpy.callback_groups import ReentrantCallbackGroup
 
@@ -555,7 +554,7 @@ class TAMPServer(Node):
     def move_to_target_cb(self, request, response):
 
         self.cmd_plan = self.tamp.motion_plan(
-            q_init=request.q_init,
+            q_init=self.joint_states.position[:6].tolist(),
             ee_translation_goal=np.array(request.target_position),
             ee_orientation_goal=np.array(request.target_orientation),
         )
@@ -571,7 +570,7 @@ class TAMPServer(Node):
     def move_to_target_js_cb(self, request, response):
 
         self.cmd_plan = self.tamp.motion_plan_js(
-            q_init=request.q_init,
+            q_init=self.joint_states.position[:6].tolist(),
             q_des=request.q_des,
         )
 

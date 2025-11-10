@@ -22,8 +22,6 @@ import os
 import subprocess
 import signal
 import sys
-import atexit
-import psutil
 
 # Default values
 defaults = {

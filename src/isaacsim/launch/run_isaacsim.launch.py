@@ -14,12 +14,9 @@
 # limitations under the License.
 
 from launch import LaunchDescription
-from ament_index_python.packages import get_package_share_directory
 from launch_ros.actions import Node
-from launch.actions import DeclareLaunchArgument, ExecuteProcess, OpaqueFunction
-from launch.substitutions import LaunchConfiguration, Command, PythonExpression
-from launch.conditions import IfCondition
-from launch_ros.substitutions import FindPackageShare
+from launch.actions import DeclareLaunchArgument, OpaqueFunction
+from launch.substitutions import LaunchConfiguration
 
 
 # Declare all launch arguments corresponding to the bash script options

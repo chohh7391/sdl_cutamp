@@ -1,5 +1,4 @@
 # Request
-float64[] q_init
 float64[] q_des
 ---
 # Response
